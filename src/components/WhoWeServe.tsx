@@ -20,8 +20,11 @@ export default function WhoWeServe() {
   return (
     <section
       id="who-we-serve"
-      className="relative py-20"
-    style={{ backgroundImage: 'url(/assets/Background3.png)' }}
+      className="
+        relative py-16
+        bg-fixed bg-center bg-cover
+        bg-[url('/assets/Background3.png')]
+      "
     >
       {/* —— Overlay removed here —— */}
 

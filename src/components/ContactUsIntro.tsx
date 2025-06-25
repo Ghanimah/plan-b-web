@@ -4,8 +4,11 @@ import React from 'react';
 const ContactUsIntro: React.FC = () => (
   <section
     id="contact-us"
-    className="relative py-20"
-    style={{ backgroundImage: 'url(/assets/Background3.png)' }}
+    className="
+      relative py-20
+      bg-fixed bg-center bg-cover
+      bg-[url('/assets/Background3.png')]
+    "
   >
     {/* –– NO OVERLAY –– */}
 

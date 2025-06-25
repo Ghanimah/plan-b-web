@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../../assets/logo.png';
 
 const navItems: { label: string; to: string }[] = [
   { label: 'Home', to: '/' },
@@ -25,11 +24,7 @@ export const Navbar: React.FC = () => {
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo + Brand */}
         <div className="flex items-center space-x-3">
-          <img
-            src={logo}
-            alt="Plan B Logo"
-            className="h-10 w-10 object-contain"
-          />
+         <img src="/assets/logo.png" alt="Plan B Logo" className="h-10 w-10 object-contain" />
           <div>
             <h1 className="text-xl font-bold">Plan B</h1>
             <p className="text-sm text-gray-500">Amman</p>

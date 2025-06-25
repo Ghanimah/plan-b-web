@@ -25,8 +25,11 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="relative py-20"
-      style={{ backgroundImage: 'url(/assets/Background3.png)' }}
+      className="
+        relative py-16
+        bg-fixed bg-center bg-cover
+        bg-[url('/assets/Background3.png')]
+      "
     >
       {/* —— Overlay removed here —— */}
 
