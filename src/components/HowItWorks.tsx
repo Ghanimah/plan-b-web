@@ -1,6 +1,3 @@
-// src/components/HowItWorks.tsx
-
-import background3 from '../../assets/background3.png';
 import {
   MessageCircle,
   Settings,
@@ -29,11 +26,7 @@ export default function HowItWorks() {
     <section
       id="how-it-works"
       className="relative py-20"
-      style={{
-        backgroundImage: `url(${background3})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
+      style={{ backgroundImage: 'url(/assets/Background3.png)' }}
     >
       {/* —— Overlay removed here —— */}
 

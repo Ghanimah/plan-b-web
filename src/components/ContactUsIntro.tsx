@@ -1,16 +1,11 @@
 // src/components/ContactUsIntro.tsx
 import React from 'react';
-import background3 from '../../assets/background3.png';
 
 const ContactUsIntro: React.FC = () => (
   <section
     id="contact-us"
     className="relative py-20"
-    style={{
-      backgroundImage: `url(${background3})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    }}
+    style={{ backgroundImage: 'url(/assets/Background3.png)' }}
   >
     {/* –– NO OVERLAY –– */}
 
