@@ -26,10 +26,14 @@ export default function HowItWorks() {
     <section
       id="how-it-works"
       className="
-        relative py-16
-        bg-fixed bg-center bg-cover
-        bg-[url('/assets/Background3.png')]
-      "
+        relative
+         py-20
+         bg-[url('/assets/background3.png')]
+         bg-cover
+         bg-center
+         bg-fixed
+       "
+
     >
       {/* —— Overlay removed here —— */}
 
