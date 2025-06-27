@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
     <section
       id="hero"
       className="relative flex items-center justify-center h-screen bg-cover bg-center"
-      style={{ backgroundImage: 'url(/assets/Background3.png)' }}
+      style={{ backgroundImage: 'url(/assets/honeycomb-pattern.png)' }}
     >
       <div className="container relative z-10 text-center">
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-offwhite mb-6">

@@ -1,8 +1,14 @@
+// src/components/JoinHive.tsx
+
 import React, { useState } from 'react';
 import { User, Calendar, FileText, ChevronRight } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
 
 const JoinHive: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState<{
     fullName: string;
     email: string;
@@ -20,7 +26,6 @@ const JoinHive: React.FC = () => {
     availability: '',
     resume: null,
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -34,38 +39,63 @@ const JoinHive: React.FC = () => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
+    const file = e.target.files?.[0] ?? null;
     setFormData(prev => ({
       ...prev,
       resume: file,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setIsExpanded(false);
-      setFormData({
-        fullName: '',
-        email: '',
-        phone: '',
-        address: '',
-        startDate: '',
-        availability: '',
-        resume: null,
-      });
-    }, 3000);
+    setLoading(true);
+
+    // (Optional) You could first upload the resume to Storage, then get a URL.
+    // Here we'll just send the file name into the table.
+    try {
+      const { error } = await supabase
+        .from('join_hive_requests')
+        .insert({
+          full_name:    formData.fullName,
+          email:        formData.email,
+          phone_number: formData.phone,
+          address:      formData.address,
+          start_date:   formData.startDate,
+          availability: formData.availability,
+          resume_url:   formData.resume?.name ?? null,
+        });
+
+      if (error) throw error;
+
+      // success!
+      setIsSubmitted(true);
+      setTimeout(() => {
+        // reset form after a moment
+        setIsSubmitted(false);
+        setIsExpanded(false);
+        setFormData({
+          fullName: '',
+          email: '',
+          phone: '',
+          address: '',
+          startDate: '',
+          availability: '',
+          resume: null,
+        });
+      }, 3000);
+
+    } catch (err: any) {
+      console.error('Error inserting join_hive_requests row:', err);
+      alert('Sorry, something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   // — Submitted Confirmation —
   if (isSubmitted) {
     return (
-      <section
-        id="join-hive"
-        className="py-20"
-      >
+      <section id="join-hive" className="py-20">
         <div className="container text-center">
           <div className="bg-white/90 p-12 rounded-lg shadow-2xl animate-pulse">
             <div
@@ -101,7 +131,7 @@ const JoinHive: React.FC = () => {
             Start your journey with Jordan’s leading student recruitment platform
           </p>
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {[ 
+            {[
               {
                 icon: User,
                 title: 'Personal & Contact',
@@ -264,9 +294,14 @@ const JoinHive: React.FC = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="px-8 py-3 bg-bee-red text-offwhite font-semibold rounded-full hover:bg-honey transition-all duration-300"
+                disabled={loading}
+                className={`px-8 py-3 font-semibold rounded-full transition ${
+                  loading
+                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                    : 'bg-bee-red text-offwhite hover:bg-honey'
+                }`}
               >
-                Join Your Hive
+                {loading ? 'Submitting…' : 'Join Your Hive'}
               </button>
             </div>
           </form>

@@ -1,301 +1,251 @@
-import React, { useState } from 'react';
-import { Building2, Calendar, Users, ChevronRight } from 'lucide-react';
+// src/components/BuildHive.tsx
+
+import React, { useState } from 'react'
+import { Building2, Calendar, ShoppingCart } from 'lucide-react'
+import { supabase } from '../lib/supabaseClient'
+
+type FormState = {
+  companyName: string
+  primaryContact: string
+  phoneNumber: string
+  billingAddress: string
+  eventName: string
+  eventType: string
+  expectedAttendance: string
+  eventObjectives: string
+  requiredRoles: string
+  totalHeadcount: string
+  scheduleDetails: string
+}
 
 const BuildHive: React.FC = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState<FormState>({
     companyName: '',
-    contactName: '',
-    phone: '',
-    address: '',
+    primaryContact: '',
+    phoneNumber: '',
+    billingAddress: '',
     eventName: '',
     eventType: '',
-    attendance: '',
-    objectives: '',
-    roles: '',
-    headcount: '',
-    schedule: ''
-  });
+    expectedAttendance: '',
+    eventObjectives: '',
+    requiredRoles: '',
+    totalHeadcount: '',
+    scheduleDetails: '',
+  })
+  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+    setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setIsExpanded(false);
-      setFormData({
-        companyName: '',
-        contactName: '',
-        phone: '',
-        address: '',
-        eventName: '',
-        eventType: '',
-        attendance: '',
-        objectives: '',
-        roles: '',
-        headcount: '',
-        schedule: ''
-      });
-    }, 3000);
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
 
-  // — Confirmation screen
-  if (isSubmitted) {
+    const { error: sbError } = await supabase
+      .from('build_hive_requests')
+      .insert({
+        company_name:        form.companyName,
+        primary_contact:     form.primaryContact,
+        phone_number:        form.phoneNumber,
+        billing_address:     form.billingAddress,
+        event_name:          form.eventName,
+        event_type:          form.eventType,
+        expected_attendance: form.expectedAttendance,
+        event_objectives:    form.eventObjectives,
+        required_roles:      form.requiredRoles,
+        total_headcount:     form.totalHeadcount,
+        schedule_details:    form.scheduleDetails,
+      })
+
+    setLoading(false)
+
+    if (sbError) {
+      console.error('Supabase insert error:', sbError)
+      setError(sbError.message)
+    } else {
+      setSubmitted(true)
+    }
+  }
+
+  if (submitted) {
     return (
       <section id="build-hive" className="py-20">
-        <div className="container text-center max-w-4xl">
-          <div className="bg-white/90 p-12 rounded-lg shadow-2xl animate-pulse">
-            <div
-              className="w-24 h-24 bg-honey rounded-full mx-auto mb-6 flex items-center justify-center"
-              style={{
-                clipPath:
-                  'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)'
-              }}
-            >
-              <Building2 className="w-12 h-12 text-bee-black" />
-            </div>
-            <h3 className="text-3xl font-bold text-bee-black mb-4">
-              Build Your Hive… and let our Bees do the rest!
-            </h3>
-            <p className="text-xl text-gray-600">
-              We'll buzz back to you in no time.
+        <div className="container text-center">
+          <div className="bg-white/90 p-12 rounded-xl shadow-lg">
+            <Building2 className="w-16 h-16 text-honey mx-auto mb-4" />
+            <h3 className="text-3xl font-bold mb-2">Thanks for your request!</h3>
+            <p className="text-gray-700">
+              We’ve received your Build-Hive request and will be in touch within 24–48 hours.
             </p>
           </div>
         </div>
       </section>
-    );
+    )
   }
 
-  // — Collapsed “three-step” teaser
-  if (!isExpanded) {
-    return (
-      <section id="build-hive" className="py-20">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-bee-black mb-6">
-              Build Your Hive
-            </h2>
-            <p className="text-xl text-gray-600 mb-8">
-              Connect with our trained student talent in three simple steps
-            </p>
+  return (
+    <section id="build-hive" className="py-20">
+      <div className="container mx-auto max-w-3xl">
+        <h2 className="text-4xl font-bold text-center mb-8">Build Your Hive</h2>
+        {error && (
+          <div className="bg-red-100 text-red-800 p-4 rounded mb-6">
+            Error submitting form: {error}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-6 bg-white/90 p-8 rounded-xl shadow-lg">
+          {/* Company & Contact */}
+          <div className="border-l-4 border-honey pl-4">
+            <h3 className="flex items-center text-2xl font-semibold mb-4">
+              <Building2 className="w-6 h-6 mr-2 text-honey" /> Company & Contact Details
+            </h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                name="companyName"
+                value={form.companyName}
+                onChange={handleChange}
+                placeholder="Company Name"
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+              />
+              <input
+                type="text"
+                name="primaryContact"
+                value={form.primaryContact}
+                onChange={handleChange}
+                placeholder="Primary Contact"
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+              />
+              <input
+                type="tel"
+                name="phoneNumber"
+                value={form.phoneNumber}
+                onChange={handleChange}
+                placeholder="Phone Number"
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+              />
+              <input
+                type="text"
+                name="billingAddress"
+                value={form.billingAddress}
+                onChange={handleChange}
+                placeholder="Billing Address"
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+              />
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {[ 
-              {
-                icon: Building2,
-                title: 'Company Details',
-                desc: 'Tell us about your company and contact information'
-              },
-              {
-                icon: Calendar,
-                title: 'Event Overview',
-                desc: 'Share your event details and objectives'
-              },
-              {
-                icon: Users,
-                title: 'Roles & Headcount',
-                desc: 'Specify the roles and number of students you need'
-              }
-            ].map(({ icon: Icon, title, desc }, i) => (
-              <div
-                key={i}
-                className="text-center group cursor-pointer transform hover:scale-105 transition-all duration-300"
+          {/* Event Overview */}
+          <div className="border-l-4 border-bee-red pl-4">
+            <h3 className="flex items-center text-2xl font-semibold mb-4">
+              <Calendar className="w-6 h-6 mr-2 text-bee-red" /> Event Overview
+            </h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                name="eventName"
+                value={form.eventName}
+                onChange={handleChange}
+                placeholder="Event Name"
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-bee-red"
+              />
+              <select
+                name="eventType"
+                value={form.eventType}
+                onChange={handleChange}
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-bee-red"
               >
-                <div
-                  className="w-20 h-20 bg-honey rounded-full mx-auto mb-4 flex items-center justify-center group-hover:bg-honey-dark transition-colors duration-300"
-                  style={{
-                    clipPath:
-                      'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)'
-                  }}
-                >
-                  <Icon className="w-10 h-10 text-bee-black" />
-                </div>
-                <h3 className="text-xl font-semibold text-bee-black mb-2">
-                  {title}
-                </h3>
-                <p className="text-gray-600">{desc}</p>
-              </div>
-            ))}
+                <option value="">Select Event Type</option>
+                <option>Conference</option>
+                <option>Festival</option>
+                <option>Activation</option>
+                {/* add yours */}
+              </select>
+              <input
+                type="text"
+                name="expectedAttendance"
+                value={form.expectedAttendance}
+                onChange={handleChange}
+                placeholder="Expected Attendance"
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-bee-red"
+              />
+              <textarea
+                name="eventObjectives"
+                value={form.eventObjectives}
+                onChange={handleChange}
+                placeholder="Event Objectives"
+                rows={3}
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-bee-red"
+              />
+            </div>
+          </div>
+
+          {/* Staffing Requirements */}
+          <div className="border-l-4 border-honey-dark pl-4">
+            <h3 className="flex items-center text-2xl font-semibold mb-4">
+              <ShoppingCart className="w-6 h-6 mr-2 text-honey-dark" /> Staffing Requirements
+            </h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                name="requiredRoles"
+                value={form.requiredRoles}
+                onChange={handleChange}
+                placeholder="Required Roles"
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey-dark"
+              />
+              <input
+                type="text"
+                name="totalHeadcount"
+                value={form.totalHeadcount}
+                onChange={handleChange}
+                placeholder="Total Headcount"
+                required
+                className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey-dark"
+              />
+            </div>
+            <textarea
+              name="scheduleDetails"
+              value={form.scheduleDetails}
+              onChange={handleChange}
+              placeholder="Schedule Details"
+              rows={3}
+              required
+              className="w-full mt-4 px-4 py-3 border rounded focus:ring-2 focus:ring-honey-dark"
+            />
           </div>
 
           <div className="text-center">
             <button
-              onClick={() => setIsExpanded(true)}
-              className="inline-flex items-center px-8 py-4 bg-bee-red text-offwhite font-semibold rounded-full hover:bg-honey-dark transition-all duration-300 transform hover:scale-105"
+              type="submit"
+              disabled={loading}
+              className={`px-8 py-3 rounded-full font-semibold transition ${
+                loading
+                  ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                  : 'bg-bee-red text-offwhite hover:bg-honey'
+              }`}
             >
-              Build Your Hive Now!
-              <ChevronRight className="w-5 h-5 ml-2" />
+              {loading ? 'Submitting…' : 'Submit Build Request'}
             </button>
           </div>
-        </div>
-      </section>
-    );
-  }
-
-  // — Expanded form
-  return (
-    <section id="build-hive" className="py-20">
-      <div className="container max-w-4xl">
-        <div className="bg-white/90 rounded-lg shadow-2xl p-8">
-          <h2 className="text-3xl font-bold text-bee-black mb-8 text-center">
-            Build Your Hive
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Company & Contact Details */}
-            <div className="border-l-4 border-honey pl-6">
-              <h3 className="text-xl font-semibold text-bee-black mb-4 flex items-center">
-                <Building2 className="w-6 h-6 mr-2 text-honey" />
-                Company & Contact Details
-              </h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  name="companyName"
-                  value={formData.companyName}
-                  onChange={handleChange}
-                  placeholder="Company Name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                  required
-                />
-                <input
-                  type="text"
-                  name="contactName"
-                  value={formData.contactName}
-                  onChange={handleChange}
-                  placeholder="Primary Contact"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                  required
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Phone Number"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                  required
-                />
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  placeholder="Billing Address"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Event Overview */}
-            <div className="border-l-4 border-honey-dark pl-6">
-              <h3 className="text-xl font-semibold text-bee-black mb-4 flex items-center">
-                <Calendar className="w-6 h-6 mr-2 text-honey-dark" />
-                Event Overview
-              </h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  name="eventName"
-                  value={formData.eventName}
-                  onChange={handleChange}
-                  placeholder="Event Name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                  required
-                />
-                <select
-                  name="eventType"
-                  value={formData.eventType}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                  required
-                >
-                  <option value="">Select Event Type</option>
-                  <option value="brand-promotion">Brand Promotion</option>
-                  <option value="event-staffing">Event Staffing</option>
-                  <option value="mystery-shopping">Mystery Shopping</option>
-                  <option value="data-entry">Data Entry</option>
-                  <option value="retail-support">Retail Support</option>
-                  <option value="other">Other</option>
-                </select>
-                <input
-                  type="number"
-                  name="attendance"
-                  value={formData.attendance}
-                  onChange={handleChange}
-                  placeholder="Expected Attendance"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                />
-                <textarea
-                  name="objectives"
-                  value={formData.objectives}
-                  onChange={handleChange}
-                  placeholder="Event Objectives"
-                  rows={3}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            {/* Staffing Requirements */}
-            <div className="border-l-4 border-bee-red pl-6">
-              <h3 className="text-xl font-semibold text-bee-black mb-4 flex items-center">
-                <Users className="w-6 h-6 mr-2 text-bee-red" />
-                Staffing Requirements
-              </h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  name="roles"
-                  value={formData.roles}
-                  onChange={handleChange}
-                  placeholder="Required Roles"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                  required
-                />
-                <input
-                  type="number"
-                  name="headcount"
-                  value={formData.headcount}
-                  onChange={handleChange}
-                  placeholder="Total Headcount"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                  required
-                />
-                <textarea
-                  name="schedule"
-                  value={formData.schedule}
-                  onChange={handleChange}
-                  placeholder="Schedule Details"
-                  rows={2}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bee-red focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            <div className="text-center">
-              <button
-                type="submit"
-                className="px-8 py-3 bg-bee-red text-offwhite font-semibold rounded-full hover:bg-honey-dark hover:text-bee-black transition-all duration-300"
-              >
-                Build Your Hive
-              </button>
-            </div>
-          </form>
-        </div>
+        </form>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default BuildHive;
+export default BuildHive
