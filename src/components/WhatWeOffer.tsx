@@ -1,5 +1,5 @@
 // src/components/WhatWeOffer.tsx
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   Megaphone,
   UserCheck,
@@ -13,10 +13,11 @@ import {
   DollarSign,
   Award,
   Globe,
-} from 'lucide-react';
+} from 'lucide-react'
+import background3 from '../assets/background3.png'
 
 export const WhatWeOffer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'clients' | 'students'>('clients');
+  const [activeTab, setActiveTab] = useState<'clients' | 'students'>('clients')
 
   const clientServices = [
     {
@@ -59,7 +60,7 @@ export const WhatWeOffer: React.FC = () => {
       title: 'Fully Custom "Project Hives"',
       description: 'Tailored teams for your unique business requirements',
     },
-  ];
+  ]
 
   const studentBenefits = [
     {
@@ -92,15 +93,22 @@ export const WhatWeOffer: React.FC = () => {
       title: 'Community & Networking',
       description: 'Connect with peers and build lasting professional relationships',
     },
-  ];
+  ]
 
   const cardBase =
-    'relative flex flex-col p-6 rounded-2xl bg-white/30 backdrop-blur-md border border-white/20 shadow-lg transition-transform duration-300 hover:-translate-y-2';
+    'relative flex flex-col p-6 rounded-2xl bg-white/30 backdrop-blur-md border border-white/20 shadow-lg transition-transform duration-300 hover:-translate-y-2'
+
+  const wrapperClasses = 'relative py-20 min-h-screen bg-cover bg-center bg-fixed'
+  const wrapperStyle = { backgroundImage: `url(${background3})` }
 
   return (
-    <section id="what-we-offer" className="container py-20">
+    <section
+      id="what-we-offer"
+      className={wrapperClasses}
+      style={wrapperStyle}
+    >
       {/* Header */}
-      <div className="text-center mb-16">
+      <div className="container mx-auto text-center mb-16">
         <h2 className="text-4xl font-bold text-bee-black mb-6">What We Offer</h2>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
           Comprehensive solutions for businesses and meaningful opportunities for students
@@ -135,7 +143,7 @@ export const WhatWeOffer: React.FC = () => {
 
       {/* Clients Grid */}
       {activeTab === 'clients' && (
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="container mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
           {clientServices.map((service) => (
             <div key={service.title} className={cardBase}>
               <div
@@ -156,7 +164,7 @@ export const WhatWeOffer: React.FC = () => {
 
       {/* Students Grid */}
       {activeTab === 'students' && (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="container mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
           {studentBenefits.map((benefit) => (
             <div key={benefit.title} className={cardBase}>
               <div
@@ -177,5 +185,5 @@ export const WhatWeOffer: React.FC = () => {
         </div>
       )}
     </section>
-  );
-};
+  )
+}
