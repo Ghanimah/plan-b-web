@@ -1,3 +1,5 @@
+import bgHowItWorks from '../assets/background3.png';
+
 const steps = [
   { icon: '💬', title: 'Client Inquiry',      description: 'Receive requirements from companies.',                                   step: 'Step 1' },
   { icon: '⚙️', title: 'Forward to BUZZOPS',  description: `Briefing shared internally; “We’re building a Hive for you!”`,          step: 'Step 2' },
@@ -13,7 +15,13 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="relative py-20 bg-honey-bg bg-cover bg-center bg-fixed"
+      className="relative py-20"
+      style={{
+        backgroundImage: `url(${bgHowItWorks})`,
+        backgroundSize:    'cover',
+        backgroundPosition:'center',
+        backgroundAttachment: 'fixed',
+      }}
     >
       {/* Header */}
       <div className="relative z-10 mx-auto max-w-3xl px-4 text-center text-bee-black">
