@@ -1,7 +1,6 @@
 // src/components/Navbar.tsx
-
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 const navItems: { label: string; to: string }[] = [
   { label: 'Home', to: '/' },
@@ -9,32 +8,53 @@ const navItems: { label: string; to: string }[] = [
   { label: 'Who We Serve', to: '/who-we-serve' },
   { label: 'About Us', to: '/about-us' },
   { label: 'Contact', to: '/contact' },
-];
+]
 
 export const Navbar: React.FC = () => {
-  const location = useLocation();
-  const [active, setActive] = useState(location.pathname);
+  const location = useLocation()
+  const [active, setActive] = useState(location.pathname)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    setActive(location.pathname);
-  }, [location.pathname]);
+    setActive(location.pathname)
+  }, [location.pathname])
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-md">
+    <nav
+      className={`
+        fixed w-full top-0 left-0 z-50
+        transition-colors duration-300
+        ${scrolled
+          ? 'bg-black/70 backdrop-blur-md'
+          : 'bg-transparent'}
+      `}
+    >
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo + Brand */}
         <div className="flex items-center space-x-3">
-         <img src="/assets/logo.png" alt="Plan B Logo" className="h-10 w-10 object-contain" />
+          <img
+            src="/assets/logo.png"
+            alt="Plan B Logo"
+            className="h-10 w-10 object-contain"
+          />
           <div>
-            <h1 className="text-xl font-bold">Plan B</h1>
-            <p className="text-sm text-gray-500">Amman</p>
+            <h1 className="text-xl font-bold text-white">Plan B</h1>
+            <p className="text-sm text-gray-200">Amman</p>
           </div>
         </div>
 
         {/* Nav Links */}
         <ul className="flex space-x-4">
           {navItems.map(({ label, to }) => {
-            const isActive = active === to;
+            const isActive = active === to
             return (
               <li key={to}>
                 <Link
@@ -53,10 +73,11 @@ export const Navbar: React.FC = () => {
                   {label}
                 </Link>
               </li>
-            );
+            )
           })}
         </ul>
       </div>
     </nav>
-  );
-};
+  )
+}
+export default Navbar
