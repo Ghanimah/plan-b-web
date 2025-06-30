@@ -78,7 +78,7 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
 
   if (submitted) {
     return (
-      <section id="build-hive" className="py-20">
+      <section id="build-hive" className="scroll-mt-24 py-20">
         <div className="container text-center">
           <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
             ← Back
@@ -96,7 +96,7 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
   }
 
   return (
-    <section id="build-hive" className="py-20">
+    <section id="build-hive" className="scroll-mt-24 py-20">
       <div className="container mx-auto max-w-3xl">
         <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
           ← Back

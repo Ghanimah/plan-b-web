@@ -89,7 +89,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   }
 
   const bgSection =
-    "relative py-20 bg-[url('/assets/background3.png')] bg-cover bg-center bg-fixed"
+    "scroll-mt-24 relative py-20 bg-[url('/assets/background3.png')] bg-cover bg-center bg-fixed"
 
   if (isSubmitted) {
     return (

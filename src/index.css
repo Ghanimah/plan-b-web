@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Smooth native scroll for anchors */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem; /* leave room for your fixed navbar */
+}
+
 /* Brand honeycomb everywhere */
 body {
   background-color: #F3BF18; /* honey */

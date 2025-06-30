@@ -1,15 +1,11 @@
 // src/components/Hero.tsx
 import React, { useEffect, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Hero: React.FC = () => {
-  const scrollToSection = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-
   const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  useEffect(() => setMounted(true), [])
 
   return (
     <section
@@ -19,7 +15,7 @@ const Hero: React.FC = () => {
         bg-[url('/assets/honeycomb-pattern.png')] bg-cover bg-center
       "
     >
-      {/* Headline with indent on second line */}
+      {/* Headline */}
       <div
         className={`
           absolute left-12 top-32
@@ -30,13 +26,11 @@ const Hero: React.FC = () => {
         <h1 className="text-5xl sm:text-5xl lg:text-5xl font-extrabold text-white leading-snug">
           We Build Hives.
           <br />
-          <span className="inline-block ml-8">
-            We Gain Trust.
-          </span>
+          <span className="inline-block ml-8">We Gain Trust.</span>
         </h1>
       </div>
 
-      {/* Buttons under the logo */}
+      {/* React-Router Links */}
       <div
         className={`
           absolute left-1/2 top-[60%] -translate-x-1/2
@@ -45,8 +39,8 @@ const Hero: React.FC = () => {
           ${mounted ? 'opacity-100' : 'opacity-0'}
         `}
       >
-        <button
-          onClick={() => scrollToSection('build-hive')}
+        <Link
+          to="/build-hive"
           className="
             px-8 py-3 bg-yellow-400 text-black font-semibold rounded-full
             transform transition duration-500 ease-out
@@ -54,9 +48,9 @@ const Hero: React.FC = () => {
           "
         >
           Build Your Hive
-        </button>
-        <button
-          onClick={() => scrollToSection('join-hive')}
+        </Link>
+        <Link
+          to="/join-hive"
           className="
             px-8 py-3 bg-transparent border-2 border-yellow-400 text-yellow-400 font-semibold rounded-full
             transform transition duration-500 ease-out
@@ -64,7 +58,7 @@ const Hero: React.FC = () => {
           "
         >
           Join Your Hive
-        </button>
+        </Link>
       </div>
 
       {/* Scroll hint */}

@@ -1,6 +1,6 @@
 // src/App.tsx
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
 import Hero from './components/Hero'
 import HowItWorks from './components/HowItWorks'
@@ -11,7 +11,20 @@ import { WhyChoosePlanB } from './components/WhyChoosePlanB'
 import HomeHives from './components/HomeHives'
 import StickySupport from './components/StickySupport'
 import ContactUsIntro from './components/ContactUsIntro'
+import BuildHive from './components/BuildHive'
+import JoinHive from './components/JoinHive'
 import Footer from './components/Footer'
+
+// Wrapper to inject onBack via useNavigate
+const RoutedBuildHive: React.FC = () => {
+  const navigate = useNavigate()
+  return <BuildHive onBack={() => navigate(-1)} />
+}
+
+const RoutedJoinHive: React.FC = () => {
+  const navigate = useNavigate()
+  return <JoinHive onBack={() => navigate(-1)} />
+}
 
 const App: React.FC = () => (
   <BrowserRouter>
@@ -45,6 +58,10 @@ const App: React.FC = () => (
             </>
           }
         />
+
+        {/* Build & Join as standalone pages */}
+        <Route path="/build-hive" element={<RoutedBuildHive />} />
+        <Route path="/join-hive" element={<RoutedJoinHive />} />
 
         {/* STANDALONE PAGES */}
         <Route path="/how-it-works" element={<HowItWorks />} />
