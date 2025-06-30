@@ -1,16 +1,17 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Navbar } from './components/Navbar';
-import Hero from './components/Hero';
-import HowItWorks from './components/HowItWorks';
-import WhoWeServe from './components/WhoWeServe';
-import { WhatWeOffer } from './components/WhatWeOffer';
-import { WhyTheBee } from './components/WhyTheBee';
-import { WhyChoosePlanB } from './components/WhyChoosePlanB';
-import BuildHive from './components/BuildHive';
-import JoinHive from './components/JoinHive';
-import StickySupport from './components/StickySupport';
-import ContactUsIntro from './components/ContactUsIntro';
-import Footer from './components/Footer';
+// src/App.tsx
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Navbar } from './components/Navbar'
+import Hero from './components/Hero'
+import HowItWorks from './components/HowItWorks'
+import WhoWeServe from './components/WhoWeServe'
+import { WhatWeOffer } from './components/WhatWeOffer'
+import { WhyTheBee } from './components/WhyTheBee'
+import { WhyChoosePlanB } from './components/WhyChoosePlanB'
+import HomeHives from './components/HomeHives'
+import StickySupport from './components/StickySupport'
+import ContactUsIntro from './components/ContactUsIntro'
+import Footer from './components/Footer'
 
 const App: React.FC = () => (
   <BrowserRouter>
@@ -18,20 +19,16 @@ const App: React.FC = () => (
 
     <div className="min-h-screen">
       <Routes>
-        {/* HOME: Hero → Build + Join → About Us → Support */}
+        {/* HOME: Hero → Build/Join Teasers → About Us → Support */}
         <Route
           path="/"
           element={
             <>
               <Hero />
-
-              {/* Right after Hero */}
-              <BuildHive />
-              <JoinHive />
+              <HomeHives />
 
               {/* About Us */}
               <section id="about-us">
-                <WhyTheBee />
                 <WhyChoosePlanB />
               </section>
 
@@ -49,6 +46,7 @@ const App: React.FC = () => (
           element={
             <>
               <WhatWeOffer />
+              <WhyTheBee />
             </>
           }
         />
@@ -56,10 +54,7 @@ const App: React.FC = () => (
           path="/contact"
           element={
             <>
-              {/* Contact Us Intro */}
               <ContactUsIntro />
-
-              {/* Existing contact sections */}
               <StickySupport />
             </>
           }
@@ -72,6 +67,6 @@ const App: React.FC = () => (
 
     <Footer />
   </BrowserRouter>
-);
+)
 
-export default App;
+export default App

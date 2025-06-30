@@ -1,8 +1,11 @@
 // src/components/BuildHive.tsx
-
 import React, { useState } from 'react'
 import { Building2, Calendar, ShoppingCart } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
+
+interface BuildHiveProps {
+  onBack: () => void
+}
 
 type FormState = {
   companyName: string
@@ -18,7 +21,7 @@ type FormState = {
   scheduleDetails: string
 }
 
-const BuildHive: React.FC = () => {
+const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
   const [form, setForm] = useState<FormState>({
     companyName: '',
     primaryContact: '',
@@ -77,6 +80,9 @@ const BuildHive: React.FC = () => {
     return (
       <section id="build-hive" className="py-20">
         <div className="container text-center">
+          <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
+            ← Back
+          </button>
           <div className="bg-white/90 p-12 rounded-xl shadow-lg">
             <Building2 className="w-16 h-16 text-honey mx-auto mb-4" />
             <h3 className="text-3xl font-bold mb-2">Thanks for your request!</h3>
@@ -92,6 +98,9 @@ const BuildHive: React.FC = () => {
   return (
     <section id="build-hive" className="py-20">
       <div className="container mx-auto max-w-3xl">
+        <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
+          ← Back
+        </button>
         <h2 className="text-4xl font-bold text-center mb-8">Build Your Hive</h2>
         {error && (
           <div className="bg-red-100 text-red-800 p-4 rounded mb-6">
@@ -170,7 +179,6 @@ const BuildHive: React.FC = () => {
                 <option>Conference</option>
                 <option>Festival</option>
                 <option>Activation</option>
-                {/* add yours */}
               </select>
               <input
                 type="text"

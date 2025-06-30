@@ -1,3 +1,4 @@
+// src/components/WhatWeOffer.tsx
 import React, { useState } from 'react';
 import {
   Megaphone,
@@ -108,9 +109,7 @@ export const WhatWeOffer: React.FC = () => {
             <button
               onClick={() => setActiveTab('clients')}
               className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
-                activeTab === 'clients'
-                  ? 'bg-honey text-bee-black'
-                  : 'text-bee-black'
+                activeTab === 'clients' ? 'bg-honey text-bee-black' : 'text-bee-black'
               }`}
             >
               For Clients
@@ -118,9 +117,7 @@ export const WhatWeOffer: React.FC = () => {
             <button
               onClick={() => setActiveTab('students')}
               className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
-                activeTab === 'students'
-                  ? 'bg-honey text-bee-black'
-                  : 'text-bee-black'
+                activeTab === 'students' ? 'bg-honey text-bee-black' : 'text-bee-black'
               }`}
             >
               For Students
@@ -175,43 +172,11 @@ export const WhatWeOffer: React.FC = () => {
               <h3 className="text-xl font-bold text-bee-black mb-4 text-center">
                 {benefit.title}
               </h3>
-              <p className="text-gray-600 text-center">
-                {benefit.description}
-              </p>
+              <p className="text-gray-600 text-center">{benefit.description}</p>
             </div>
           ))}
         </div>
       )}
-
-      {/* Call to Action */}
-      <div className="text-center mt-16">
-        <div className="bg-gradient-to-r from-honey to-honey-dark rounded-2xl p-8 inline-block">
-          <h3 className="text-2xl font-bold text-bee-black mb-4">
-            Ready to{' '}
-            {activeTab === 'clients'
-              ? 'Build Your Hive'
-              : 'Join Our Community'}
-            ?
-          </h3>
-          <p className="text-lg text-bee-black mb-6">
-            {activeTab === 'clients'
-              ? "Get access to Jordan's most reliable student workforce"
-              : 'Start your journey with flexible, meaningful work opportunities'}
-          </p>
-          <button
-            onClick={() =>
-              document
-                .getElementById(
-                  activeTab === 'clients' ? 'build-hive' : 'join-hive'
-                )
-                ?.scrollIntoView({ behavior: 'smooth' })
-            }
-            className="bg-bee-red text-offwhite px-8 py-4 rounded-lg font-semibold hover:bg-bee-black transition-colors duration-300 transform hover:scale-105"
-          >
-            Get Started Today
-          </button>
-        </div>
-      </div>
     </section>
   );
 };
