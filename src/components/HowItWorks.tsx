@@ -1,6 +1,3 @@
-// src/components/HowItWorks.tsx
-import React from 'react'
-
 const steps = [
   { icon: '💬', title: 'Client Inquiry',      description: 'Receive requirements from companies.',                                   step: 'Step 1' },
   { icon: '⚙️', title: 'Forward to BUZZOPS',  description: `Briefing shared internally; “We’re building a Hive for you!”`,          step: 'Step 2' },
