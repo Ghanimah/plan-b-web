@@ -1,6 +1,8 @@
+// src/components/BuildHive.tsx
 import React, { useState } from 'react'
 import { Building2, Calendar, ShoppingCart } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
+import background3 from '../assets/background3.png'
 
 interface BuildHiveProps {
   onBack: () => void
@@ -72,13 +74,13 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
     }
   }
 
-  const bgSection =
-    'scroll-mt-24 relative py-20 bg-[url(\'/assets/background3.png\')] bg-cover bg-center bg-fixed'
+  const wrapperClasses = 'scroll-mt-24 relative py-20 min-h-screen bg-cover bg-center bg-fixed'
+  const wrapperStyle = { backgroundImage: `url(${background3})` }
 
   if (submitted) {
     return (
-      <section id="build-hive" className={bgSection}>
-        <div className="container text-center">
+      <section id="build-hive" className={wrapperClasses} style={wrapperStyle}>
+        <div className="container text-center mx-auto">
           <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
             ← Back
           </button>
@@ -100,7 +102,7 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
   }
 
   return (
-    <section id="build-hive" className={bgSection}>
+    <section id="build-hive" className={wrapperClasses} style={wrapperStyle}>
       <div className="container mx-auto max-w-3xl">
         <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
           ← Back

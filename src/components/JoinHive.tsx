@@ -1,6 +1,8 @@
+// src/components/JoinHive.tsx
 import React, { useState } from 'react'
 import { User } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
+import background3 from '../assets/background3.png'
 
 interface JoinHiveProps {
   onBack: () => void
@@ -24,9 +26,11 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   ) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, resume: e.target.files?.[0] ?? null }))
   }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -43,6 +47,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           resume_url:   formData.resume?.name ?? null,
         })
       if (error) throw error
+
       setIsSubmitted(true)
       setTimeout(() => {
         setIsSubmitted(false)
@@ -63,24 +68,35 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
     }
   }
 
-  const bgSection =
-    "scroll-mt-24 relative py-20 bg-[url('/assets/background3.png')] bg-cover bg-center bg-fixed"
+  // common wrapper style
+  const wrapperClasses =
+    'scroll-mt-24 relative py-20 min-h-screen bg-cover bg-center'
+  const wrapperStyle = {
+    backgroundImage: `url(${background3})`,
+  }
 
   if (isSubmitted) {
     return (
-      <section id="join-hive" className={bgSection}>
-        <div className="container text-center">
+      <section
+        id="join-hive"
+        className={wrapperClasses}
+        style={wrapperStyle}
+      >
+        <div className="container text-center mx-auto max-w-xl">
           <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
             ← Back
           </button>
-          <div className="
-              mx-auto max-w-xl
+          <div
+            className="
               bg-white/30 backdrop-blur-md border border-white/20
-              rounded-2xl shadow-2xl animate-pulse
-              p-12
-            ">
+              rounded-2xl shadow-2xl animate-pulse p-12
+            "
+          >
             <div
-              className="w-24 h-24 bg-honey rounded-full mx-auto mb-6 flex items-center justify-center"
+              className="
+                w-24 h-24 bg-honey rounded-full mx-auto mb-6
+                flex items-center justify-center
+              "
               style={{
                 clipPath:
                   'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)',
@@ -88,7 +104,9 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             >
               <User className="w-12 h-12 text-bee-black" />
             </div>
-            <h3 className="text-3xl font-bold mb-4">Thank you for joining our hive.</h3>
+            <h3 className="text-3xl font-bold mb-4">
+              Thank you for joining our hive.
+            </h3>
             <p className="text-xl text-gray-600">
               Our sweetest bees will connect with you shortly!
             </p>
@@ -99,17 +117,21 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   }
 
   return (
-    <section id="join-hive" className={bgSection}>
+    <section
+      id="join-hive"
+      className={wrapperClasses}
+      style={wrapperStyle}
+    >
       <div className="container mx-auto max-w-4xl">
         <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
           ← Back
         </button>
-        <div className="
-            mx-auto
-            bg-white/30 backdrop-blur-md border border-white/20
-            rounded-2xl shadow-2xl
-            p-8
-          ">
+        <div
+          className="
+            mx-auto bg-white/30 backdrop-blur-md border border-white/20
+            rounded-2xl shadow-2xl p-8
+          "
+        >
           <h2 className="text-4xl font-bold text-bee-black mb-6 text-center">
             Join Your Hive
           </h2>
