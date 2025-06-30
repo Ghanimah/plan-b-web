@@ -5,7 +5,7 @@
 /* Smooth native scroll for anchors */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 4rem; /* leave room for your fixed navbar */
+  scroll-padding-top: 6rem; /* leave room for your fixed navbar */
 }
 
 /* Brand honeycomb everywhere */

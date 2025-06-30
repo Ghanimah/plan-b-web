@@ -1,11 +1,13 @@
 // src/components/JoinHive.tsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { User } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
 
 interface JoinHiveProps {
   onBack: () => void
 }
+
+const NAVBAR_HEIGHT = 80  // px, adjust if your navbar is taller/shorter
 
 const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -29,6 +31,17 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
     resume: null,
   })
 
+  // when component mounts, if URL has #join-hive, do a smooth scroll with offset
+  useEffect(() => {
+    if (window.location.hash === '#join-hive') {
+      const el = document.getElementById('join-hive')
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.pageYOffset - NAVBAR_HEIGHT
+        window.scrollTo({ top, behavior: 'smooth' })
+      }
+    }
+  }, [])
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -51,7 +64,6 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-
     try {
       const { error } = await supabase
         .from('join_hive_requests')
@@ -64,9 +76,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           availability: formData.availability,
           resume_url:   formData.resume?.name ?? null,
         })
-
       if (error) throw error
-
       setIsSubmitted(true)
       setTimeout(() => {
         setIsSubmitted(false)
@@ -81,7 +91,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
         })
       }, 3000)
     } catch (err: any) {
-      console.error('Error inserting join_hive_requests row:', err)
+      console.error(err)
       alert('Sorry, something went wrong. Please try again.')
     } finally {
       setLoading(false)
@@ -89,7 +99,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   }
 
   const bgSection =
-    "scroll-mt-24 relative py-20 bg-[url('/assets/background3.png')] bg-cover bg-center bg-fixed"
+    'relative py-20 bg-[url("/assets/background3.png")] bg-cover bg-center bg-fixed'
 
   if (isSubmitted) {
     return (
@@ -98,7 +108,11 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
             ← Back
           </button>
-          <div className="bg-white/90 p-12 rounded-lg shadow-2xl animate-pulse">
+          <div className="
+            mx-auto max-w-xl
+            bg-white/30 backdrop-blur-md border border-white/20
+            rounded-2xl shadow-2xl animate-pulse p-12
+          ">
             <div
               className="w-24 h-24 bg-honey rounded-full mx-auto mb-6 flex items-center justify-center"
               style={{
@@ -126,7 +140,11 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
         <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
           ← Back
         </button>
-        <div className="bg-white/90 rounded-lg shadow-2xl p-8">
+        <div className="
+          mx-auto
+          bg-white/30 backdrop-blur-md border border-white/20
+          rounded-2xl shadow-2xl p-8
+        ">
           <h2 className="text-4xl font-bold text-bee-black mb-6 text-center">
             Join Your Hive
           </h2>
@@ -169,7 +187,6 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
                 className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
               />
             </div>
-
             <div className="grid md:grid-cols-2 gap-4">
               <label className="flex flex-col">
                 <span className="mb-1">Available Start Date</span>
@@ -198,7 +215,6 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
                 </select>
               </label>
             </div>
-
             <label className="flex flex-col">
               <span className="mb-1">Upload Resume</span>
               <input
@@ -209,7 +225,6 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
                 className="px-4 py-2 border rounded focus:ring-2 focus:ring-honey"
               />
             </label>
-
             <div className="text-center">
               <button
                 type="submit"

@@ -1,12 +1,13 @@
-import React from 'react';
-import { Users, Target, Heart, Zap } from 'lucide-react';
+// src/components/WhyTheBee.tsx
+import React from 'react'
+import { Users, Target, Heart, Zap } from 'lucide-react'
 
 interface HiveValue {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  description: string;
-  detail: string;
-  color: 'bg-honey' | 'bg-honey-dark' | 'bg-bee-red';
+  icon: React.ComponentType<{ className?: string }>
+  title: string
+  description: string
+  detail: string
+  color: 'bg-honey' | 'bg-honey-dark' | 'bg-bee-red'
 }
 
 const hiveValues: HiveValue[] = [
@@ -42,7 +43,7 @@ const hiveValues: HiveValue[] = [
       'Quick to learn and flexible to change, our Bees adapt to new challenges and keep operations smooth.',
     color: 'bg-honey',
   },
-];
+]
 
 export const WhyTheBee: React.FC = () => (
   <section id="why-the-bee" className="container py-16">
@@ -50,8 +51,7 @@ export const WhyTheBee: React.FC = () => (
     <div className="text-center mb-12">
       <h2 className="text-4xl font-bold text-bee-black mb-4">Why The Bee?</h2>
       <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-        Our values mirror the natural wisdom of the hive—where individual
-        strengths create collective success.
+        Our values mirror the natural wisdom of the hive—where individual strengths create collective success.
       </p>
     </div>
 
@@ -60,12 +60,22 @@ export const WhyTheBee: React.FC = () => (
       {hiveValues.map((val, idx) => (
         <div
           key={idx}
-          className="group relative bg-offwhite rounded-2xl p-6 transition-transform hover:-translate-y-2 hover:shadow-lg"
+          className="
+            relative flex flex-col p-6
+            bg-white/30 backdrop-blur-md border border-white/20
+            rounded-2xl shadow-lg transition-transform duration-300
+            hover:-translate-y-2 hover:shadow-2xl
+          "
         >
           {/* Icon */}
           <div className="relative mx-auto mb-6">
             <div
-              className={`w-20 h-20 ${val.color} flex items-center justify-center rounded-full group-hover:scale-110 transition-transform duration-300`}
+              className={`
+                w-20 h-20 ${val.color}
+                flex items-center justify-center
+                rounded-full
+                group-hover:scale-110 transition-transform duration-300
+              `}
               style={{
                 clipPath:
                   'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)',
@@ -76,13 +86,11 @@ export const WhyTheBee: React.FC = () => (
           </div>
 
           {/* Title & Descriptions */}
-          <h3 className="text-2xl font-semibold text-bee-black mb-2">
-            {val.title}
-          </h3>
+          <h3 className="text-2xl font-semibold text-bee-black mb-2">{val.title}</h3>
           <p className="text-gray-700 mb-4">{val.description}</p>
           <p className="text-gray-600 text-sm">{val.detail}</p>
         </div>
       ))}
     </div>
   </section>
-);
+)

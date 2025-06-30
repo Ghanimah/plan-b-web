@@ -18,8 +18,6 @@ const features = [
 
 export const WhyChoosePlanB: React.FC = () => (
   <section id="why-choose-planb" className="relative py-20">
-    {/* remove overlay entirely */}
-
     <div className="relative container mx-auto text-bee-black">
       <h2 className="text-4xl font-bold text-center mb-12 underline decoration-bee-red decoration-4">
         Why Choose Plan B?
@@ -30,17 +28,20 @@ export const WhyChoosePlanB: React.FC = () => (
           <div
             key={f.title}
             className="
-              group relative p-8 bg-white/90 backdrop-blur-sm rounded-2xl
-              shadow-md hover:shadow-xl transition-shadow duration-300
-              transform hover:-translate-y-2
+              group relative p-8
+              bg-white/30 backdrop-blur-md border border-white/20
+              rounded-2xl shadow-2xl
+              transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl
             "
           >
             {/* colored sidebar */}
             <div
               className={`
                 absolute left-0 top-1/2 -translate-y-1/2 w-1 h-16
-                ${i === 0 ? 'bg-emerald-500'
-                  : i === 1 ? 'bg-cyan-500'
+                ${i === 0
+                  ? 'bg-emerald-500'
+                  : i === 1
+                  ? 'bg-cyan-500'
                   : 'bg-fuchsia-500'}
                 rounded-full
               `}

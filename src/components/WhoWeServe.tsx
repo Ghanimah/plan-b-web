@@ -1,3 +1,5 @@
+// src/components/WhoWeServe.tsx
+import React from 'react'
 import {
   Calendar,
   Megaphone,
@@ -5,16 +7,52 @@ import {
   Building2,
   ShoppingCart,
   Heart,
-} from 'lucide-react';
+} from 'lucide-react'
 
 const clientTypes = [
-  { icon: Calendar, title: 'Event Organizers', description: 'From corporate conferences to cultural festivals', services: ['Event staffing','Setup crews','Ushers & greeters'], color: 'bg-honey' },
-  { icon: Megaphone, title: 'Marketing & Activation Agencies', description: 'Brand promotion and experiential marketing', services: ['Promoters & ambassadors','Sampling teams','Brand surveys'], color: 'bg-bee-red' },
-  { icon: Search, title: 'Retail & Mystery Shopping', description: 'On-floor service audits and customer-experience reporting', services: ['Mystery shopping','Surveys & feedback','Floor staff'], color: 'bg-honey-dark' },
-  { icon: Building2, title: 'Hospitality & F&B', description: 'Baristas, waitstaff, and greeters for your venue', services: ['Barista staff','Event catering','Guest ushers'], color: 'bg-honey' },
-  { icon: ShoppingCart, title: 'E-commerce & Sampling', description: 'Product distribution and brand awareness campaigns', services: ['Door-to-door sampling','Online surveys','Promo events'], color: 'bg-bee-red' },
-  { icon: Heart, title: 'Community & NGOs', description: 'Volunteers and part-time coordinators for social causes', services: ['Volunteer staffing','Fundraising support','Event teams'], color: 'bg-honey-dark' },
-];
+  {
+    icon: Calendar,
+    title: 'Event Organizers',
+    description: 'From corporate conferences to cultural festivals',
+    services: ['Event staffing', 'Setup crews', 'Ushers & greeters'],
+    color: 'bg-honey',
+  },
+  {
+    icon: Megaphone,
+    title: 'Marketing & Activation Agencies',
+    description: 'Brand promotion and experiential marketing',
+    services: ['Promoters & ambassadors', 'Sampling teams', 'Brand surveys'],
+    color: 'bg-bee-red',
+  },
+  {
+    icon: Search,
+    title: 'Retail & Mystery Shopping',
+    description: 'On-floor service audits and customer-experience reporting',
+    services: ['Mystery shopping', 'Surveys & feedback', 'Floor staff'],
+    color: 'bg-honey-dark',
+  },
+  {
+    icon: Building2,
+    title: 'Hospitality & F&B',
+    description: 'Baristas, waitstaff, and greeters for your venue',
+    services: ['Barista staff', 'Event catering', 'Guest ushers'],
+    color: 'bg-honey',
+  },
+  {
+    icon: ShoppingCart,
+    title: 'E-commerce & Sampling',
+    description: 'Product distribution and brand awareness campaigns',
+    services: ['Door-to-door sampling', 'Online surveys', 'Promo events'],
+    color: 'bg-bee-red',
+  },
+  {
+    icon: Heart,
+    title: 'Community & NGOs',
+    description: 'Volunteers and part-time coordinators for social causes',
+    services: ['Volunteer staffing', 'Fundraising support', 'Event teams'],
+    color: 'bg-honey-dark',
+  },
+]
 
 export default function WhoWeServe() {
   return (
@@ -26,8 +64,6 @@ export default function WhoWeServe() {
         bg-[url('/assets/Background3.png')]
       "
     >
-      {/* —— Overlay removed here —— */}
-
       <div className="relative z-10 max-w-7xl mx-auto px-4">
         <div className="text-center text-bee-black mb-12">
           <h2 className="text-4xl sm:text-5xl font-bold">Who We Serve</h2>
@@ -40,7 +76,11 @@ export default function WhoWeServe() {
           {clientTypes.map(({ icon: Icon, title, description, services, color }, idx) => (
             <div
               key={idx}
-              className="bg-white/90 border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition p-6 flex flex-col"
+              className="
+                relative flex flex-col p-6
+                bg-white/30 backdrop-blur-md border border-white/20
+                rounded-2xl shadow-lg transition hover:scale-105
+              "
             >
               <div className={`${color} w-12 h-12 rounded-full flex items-center justify-center mb-4`}>
                 <Icon className="w-6 h-6 text-white" />
@@ -57,5 +97,5 @@ export default function WhoWeServe() {
         </div>
       </div>
     </section>
-  );
+  )
 }

@@ -1,73 +1,75 @@
 // src/components/HomeHives.tsx
-import React, { useState } from 'react'
-import { User, Building2, ChevronRight } from 'lucide-react'
-import JoinHive from './JoinHive'
-import BuildHive from './BuildHive'
+import React from 'react'
+import { Building2, User } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
-const HomeHives: React.FC = () => {
-  const [mode, setMode] = useState<'none' | 'build' | 'join'>('none')
+const teasers = [
+  {
+    icon: Building2,
+    title: 'Build Your Hive',
+    subtitle: 'Tell us about your event and staffing needs',
+    to: '/build-hive',
+    bgColor: 'bg-honey-dark',
+  },
+  {
+    icon: User,
+    title: 'Join Your Hive',
+    subtitle: `Start your journey with Jordan’s leading recruitment platform`,
+    to: '/join-hive',
+    bgColor: 'bg-honey',
+  },
+]
 
-  // show both teasers
-  if (mode === 'none') {
-    return (
-       <section className="py-20">
-        <div className="container mx-auto flex flex-col md:flex-row justify-center gap-12">
-          {/* Build teaser */}
-          <div className="flex-1 bg-white/90 p-8 rounded-lg shadow-lg text-center">
+export default function HomeHives() {
+  return (
+    <section
+      id="home-hives"
+      className="relative py-20
+                 bg-fixed bg-center bg-cover
+                 bg-[url('/assets/background3.png')]"
+    >
+      <div className="relative z-10 mx-auto max-w-6xl px-4 grid gap-8 md:grid-cols-2">
+        {teasers.map(({ icon: Icon, title, subtitle, to, bgColor }) => (
+          <Link
+            key={title}
+            to={to}
+            className="
+              group flex flex-col items-center text-center p-8
+              bg-white/30 backdrop-blur-md border border-white/20
+              rounded-2xl shadow-2xl
+              transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl
+            "
+          >
             <div
-              className="w-16 h-16 bg-honey rounded-full mx-auto mb-4 flex items-center justify-center"
+              className={`
+                ${bgColor} w-12 h-12 rounded-full
+                flex items-center justify-center mb-4
+                group-hover:scale-110 transition-transform duration-300
+              `}
               style={{
                 clipPath:
                   'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)',
               }}
             >
-              <Building2 className="w-8 h-8 text-bee-black" />
+              <Icon className="w-6 h-6 text-offwhite" />
             </div>
-            <h3 className="text-2xl font-semibold mb-2">Build Your Hive</h3>
-            <p className="text-gray-600 mb-6">
-              Tell us about your event and staffing needs
-            </p>
-            <button
-              onClick={() => setMode('build')}
-              className="inline-flex items-center px-6 py-3 bg-bee-red text-offwhite font-semibold rounded-full hover:bg-honey transition-transform hover:scale-105"
+            <h3 className="text-2xl font-semibold text-bee-black mb-2">
+              {title}
+            </h3>
+            <p className="text-bee-black/70 mb-6">{subtitle}</p>
+            <span
+              className="
+                inline-flex items-center px-6 py-3
+                bg-bee-red text-offwhite font-semibold
+                rounded-full shadow-lg
+                hover:scale-105 transition-transform duration-300
+              "
             >
-              Build Your Hive
-              <ChevronRight className="w-5 h-5 ml-2" />
-            </button>
-          </div>
-
-          {/* Join teaser */}
-          <div className="flex-1 bg-white/90 p-8 rounded-lg shadow-lg text-center">
-            <div
-              className="w-16 h-16 bg-honey rounded-full mx-auto mb-4 flex items-center justify-center"
-              style={{
-                clipPath:
-                  'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)',
-              }}
-            >
-              <User className="w-8 h-8 text-bee-black" />
-            </div>
-            <h3 className="text-2xl font-semibold mb-2">Join Your Hive</h3>
-            <p className="text-gray-600 mb-6">
-              Start your journey with Jordan’s leading recruitment platform
-            </p>
-            <button
-              onClick={() => setMode('join')}
-              className="inline-flex items-center px-6 py-3 bg-bee-red text-offwhite font-semibold rounded-full hover:bg-honey transition-transform hover:scale-105"
-            >
-              Join Your Hive
-              <ChevronRight className="w-5 h-5 ml-2" />
-            </button>
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  // if a card was clicked, show that form
-  return mode === 'build'
-    ? <BuildHive onBack={() => setMode('none')} />
-    : <JoinHive  onBack={() => setMode('none')} />
+              {title} &rarr;
+            </span>
+          </Link>
+        ))}
+      </div>
+    </section>
+  )
 }
-
-export default HomeHives

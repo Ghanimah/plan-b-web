@@ -76,14 +76,18 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
     }
   }
 
+  // Shared glass-morphism card classes
+  const cardClasses =
+    'mx-auto bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl p-8'
+
   if (submitted) {
     return (
       <section id="build-hive" className="scroll-mt-24 py-20">
-        <div className="container text-center">
+        <div className="container mx-auto max-w-3xl text-center">
           <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
             ← Back
           </button>
-          <div className="bg-white/90 p-12 rounded-xl shadow-lg">
+          <div className={`${cardClasses} animate-pulse p-12`}>
             <Building2 className="w-16 h-16 text-honey mx-auto mb-4" />
             <h3 className="text-3xl font-bold mb-2">Thanks for your request!</h3>
             <p className="text-gray-700">
@@ -107,7 +111,7 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
             Error submitting form: {error}
           </div>
         )}
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white/90 p-8 rounded-xl shadow-lg">
+        <form onSubmit={handleSubmit} className={`${cardClasses} space-y-6`}>
           {/* Company & Contact */}
           <div className="border-l-4 border-honey pl-4">
             <h3 className="flex items-center text-2xl font-semibold mb-4">
@@ -229,14 +233,15 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
             <textarea
               name="scheduleDetails"
               value={form.scheduleDetails}
-              onChange={handleChange}
-              placeholder="Schedule Details"
-              rows={3}
-              required
-              className="w-full mt-4 px-4 py-3 border rounded focus:ring-2 focus:ring-honey-dark"
-            />
+                onChange={handleChange}
+                placeholder="Schedule Details"
+                rows={3}
+                required
+                className="w-full mt-4 px-4 py-3 border rounded focus:ring-2 focus:ring-honey-dark"
+              />
           </div>
 
+          {/* Submit Button */}
           <div className="text-center">
             <button
               type="submit"

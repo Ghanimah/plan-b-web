@@ -94,6 +94,9 @@ export const WhatWeOffer: React.FC = () => {
     },
   ];
 
+  const cardBase =
+    'relative flex flex-col p-6 rounded-2xl bg-white/30 backdrop-blur-md border border-white/20 shadow-lg transition-transform duration-300 hover:-translate-y-2';
+
   return (
     <section id="what-we-offer" className="container py-20">
       {/* Header */}
@@ -105,11 +108,13 @@ export const WhatWeOffer: React.FC = () => {
 
         {/* Tab Navigation */}
         <div className="flex justify-center mb-12">
-          <div className="bg-white rounded-full p-2 shadow-lg inline-flex">
+          <div className="bg-white/50 backdrop-blur-sm rounded-full p-2 shadow-lg inline-flex">
             <button
               onClick={() => setActiveTab('clients')}
               className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
-                activeTab === 'clients' ? 'bg-honey text-bee-black' : 'text-bee-black'
+                activeTab === 'clients'
+                  ? 'bg-honey text-bee-black'
+                  : 'text-bee-black/70'
               }`}
             >
               For Clients
@@ -117,7 +122,9 @@ export const WhatWeOffer: React.FC = () => {
             <button
               onClick={() => setActiveTab('students')}
               className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
-                activeTab === 'students' ? 'bg-honey text-bee-black' : 'text-bee-black'
+                activeTab === 'students'
+                  ? 'bg-honey text-bee-black'
+                  : 'text-bee-black/70'
               }`}
             >
               For Students
@@ -130,12 +137,9 @@ export const WhatWeOffer: React.FC = () => {
       {activeTab === 'clients' && (
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {clientServices.map((service) => (
-            <div
-              key={service.title}
-              className="bg-white/90 rounded-lg p-8 shadow-lg group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
-            >
+            <div key={service.title} className={cardBase}>
               <div
-                className="w-16 h-16 bg-honey-dark rounded-full flex items-center justify-center mb-6 mx-auto group-hover:bg-honey transition-colors duration-300"
+                className="w-16 h-16 bg-honey-dark rounded-full flex items-center justify-center mb-6 mx-auto"
                 style={{
                   clipPath:
                     'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
@@ -143,10 +147,8 @@ export const WhatWeOffer: React.FC = () => {
               >
                 <service.icon className="w-8 h-8 text-offwhite" />
               </div>
-              <h3 className="text-lg font-bold text-bee-black mb-3">
-                {service.title}
-              </h3>
-              <p className="text-gray-600 text-sm">{service.description}</p>
+              <h3 className="text-lg font-bold text-bee-black mb-3">{service.title}</h3>
+              <p className="text-bee-black/70 text-sm">{service.description}</p>
             </div>
           ))}
         </div>
@@ -156,12 +158,9 @@ export const WhatWeOffer: React.FC = () => {
       {activeTab === 'students' && (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {studentBenefits.map((benefit) => (
-            <div
-              key={benefit.title}
-              className="bg-white/90 rounded-lg p-8 shadow-lg group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
-            >
+            <div key={benefit.title} className={cardBase}>
               <div
-                className="w-16 h-16 bg-bee-red rounded-full flex items-center justify-center mb-6 mx-auto group-hover:bg-honey transition-colors duration-300"
+                className="w-16 h-16 bg-bee-red rounded-full flex items-center justify-center mb-6 mx-auto"
                 style={{
                   clipPath:
                     'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
@@ -172,7 +171,7 @@ export const WhatWeOffer: React.FC = () => {
               <h3 className="text-xl font-bold text-bee-black mb-4 text-center">
                 {benefit.title}
               </h3>
-              <p className="text-gray-600 text-center">{benefit.description}</p>
+              <p className="text-bee-black/70 text-center">{benefit.description}</p>
             </div>
           ))}
         </div>
