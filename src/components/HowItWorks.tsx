@@ -1,4 +1,5 @@
 // src/components/HowItWorks.tsx
+import bgHowItWorks from '../assets/background3.png'
 
 const steps = [
   { icon: '💬', title: 'Client Inquiry',      description: 'Receive requirements from companies.',                                   step: 'Step 1' },
@@ -12,15 +13,12 @@ const steps = [
 ]
 
 export default function HowItWorks() {
-  // build the correct URL for your public asset
-  const bgUrl = `${import.meta.env.BASE_URL}assets/background3.png`
-
   return (
     <section
       id="how-it-works"
       className="relative py-20"
       style={{
-        backgroundImage:    `url(${bgUrl})`,
+        backgroundImage:    `url("${bgHowItWorks}")`,
         backgroundSize:     'cover',
         backgroundPosition: 'center',
         backgroundAttachment:'fixed',
