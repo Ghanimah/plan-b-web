@@ -1,5 +1,3 @@
-// src/components/HomeHives.tsx
-import React from 'react'
 import { Building2, User } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import background3 from '../assets/background3.png'
@@ -22,11 +20,14 @@ const teasers = [
 ]
 
 export default function HomeHives() {
+  const wrapperClasses = 'relative py-20 min-h-screen bg-cover bg-center bg-fixed'
+  const wrapperStyle = { backgroundImage: `url(${background3})` }
+
   return (
     <section
       id="home-hives"
-      className="relative py-20 min-h-screen bg-cover bg-center bg-fixed"
-      style={{ backgroundImage: `url(${background3})` }}
+      className={wrapperClasses}
+      style={wrapperStyle}
     >
       <div className="relative z-10 mx-auto max-w-6xl px-4 grid gap-8 md:grid-cols-2">
         {teasers.map(({ icon: Icon, title, subtitle, to, bgColor }) => (
