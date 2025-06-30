@@ -6,6 +6,7 @@ import {
   ShoppingCart,
   Heart,
 } from 'lucide-react'
+import background3 from '../assets/background3.png'
 
 const clientTypes = [
   {
@@ -53,14 +54,14 @@ const clientTypes = [
 ]
 
 export default function WhoWeServe() {
+  const wrapperClasses = 'relative py-16 min-h-screen bg-cover bg-center bg-fixed'
+  const wrapperStyle = { backgroundImage: `url(${background3})` }
+
   return (
     <section
       id="who-we-serve"
-      className="
-        relative py-16
-        bg-fixed bg-center bg-cover
-        bg-[url('/assets/Background3.png')]
-      "
+      className={wrapperClasses}
+      style={wrapperStyle}
     >
       <div className="relative z-10 max-w-7xl mx-auto px-4">
         <div className="text-center text-bee-black mb-12">
@@ -77,7 +78,7 @@ export default function WhoWeServe() {
               className="
                 relative flex flex-col p-6
                 bg-white/30 backdrop-blur-md border border-white/20
-                rounded-2xl shadow-lg transition hover:scale-105
+                rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105
               "
             >
               <div className={`${color} w-12 h-12 rounded-full flex items-center justify-center mb-4`}>
