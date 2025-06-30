@@ -1,4 +1,3 @@
-// src/components/HomeHives.tsx
 import React from 'react'
 import { Building2, User } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -24,9 +23,11 @@ export default function HomeHives() {
   return (
     <section
       id="home-hives"
-      className="relative py-20
-                 bg-fixed bg-center bg-cover
-                 bg-[url('/assets/background3.png')]"
+      className="
+        relative py-20
+        bg-[url('/assets/background3.png')]
+        bg-cover bg-center bg-fixed
+      "
     >
       <div className="relative z-10 mx-auto max-w-6xl px-4 grid gap-8 md:grid-cols-2">
         {teasers.map(({ icon: Icon, title, subtitle, to, bgColor }) => (
