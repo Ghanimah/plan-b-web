@@ -1,5 +1,13 @@
+// tailwind.config.js
 module.exports = {
-  content: ['./index.html','./src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}'
+  ],
+
+  // If you want to keep your custom container plugin, great!
+  corePlugins: { container: false },
+
   theme: {
     extend: {
       colors: {
@@ -9,12 +17,31 @@ module.exports = {
         'bee-red':   '#BE3C21',
         offwhite:    '#F2F2F2',
       },
-         backgroundImage: {
+      backgroundImage: {
+        // you can move your bg into theme and avoid the arbitrary class
+        'honey-bg': "url('/assets/background3.png')",
         'hex-grid': "url('/assets/honeycomb.svg')",
       },
     },
   },
-  corePlugins: { container: false },
+
+  safelist: [
+    // glass cards
+    'bg-white/30',
+    'backdrop-blur-md',
+    'border-white/20',
+    'shadow-2xl',
+
+    // your scroll-margin
+    'scroll-mt-24',
+
+    // if you still want that arbitrary bg
+    "bg-[url('/assets/background3.png')]",
+
+    // any other arbitrary classes you rely on:
+    'bg-[url("/assets/honeycomb-pattern.png")]',
+  ],
+
   plugins: [
     function ({ addComponents, theme }) {
       addComponents({

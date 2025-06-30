@@ -16,8 +16,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="relative py-16 bg-fixed bg-center bg-cover"
-      style={{ backgroundImage: "url('/assets/background3.png')" }}
+      className="relative py-20 bg-honey-bg bg-cover bg-center bg-fixed"
     >
       {/* Header */}
       <div className="relative z-10 mx-auto max-w-3xl px-4 text-center text-bee-black">
