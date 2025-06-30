@@ -1,5 +1,3 @@
-// src/components/WhoWeServe.tsx
-import React from 'react'
 import {
   Calendar,
   Megaphone,
