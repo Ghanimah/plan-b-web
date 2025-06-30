@@ -10,7 +10,7 @@ const HomeHives: React.FC = () => {
   // show both teasers
   if (mode === 'none') {
     return (
-      <section className="py-20 bg-[url('/assets/background3.png')] bg-cover bg-center">
+       <section className="py-20">
         <div className="container mx-auto flex flex-col md:flex-row justify-center gap-12">
           {/* Build teaser */}
           <div className="flex-1 bg-white/90 p-8 rounded-lg shadow-lg text-center">

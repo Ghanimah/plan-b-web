@@ -24,13 +24,21 @@ const App: React.FC = () => (
           path="/"
           element={
             <>
-              <Hero />
-              <HomeHives />
+              {/* background wrapper for Hero, HomeHives, WhyChoosePlanB */}
+              <div
+                className="
+                  bg-[url('/assets/background3.png')]
+                  bg-cover bg-center bg-fixed
+                "
+              >
+                <Hero />
+                <HomeHives />
 
-              {/* About Us */}
-              <section id="about-us">
-                <WhyChoosePlanB />
-              </section>
+                {/* About Us */}
+                <section id="about-us">
+                  <WhyChoosePlanB />
+                </section>
+              </div>
 
               {/* Sticky Support */}
               <StickySupport />

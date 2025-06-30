@@ -1,4 +1,5 @@
-import React from 'react'; 
+// src/components/WhyChoosePlanB.tsx
+import React from 'react'
 
 const features = [
   {
@@ -13,27 +14,57 @@ const features = [
     title: 'Scalable Support',
     desc: 'Scale your team seamlessly as your campaign grows.',
   },
-];
+]
 
 export const WhyChoosePlanB: React.FC = () => (
-  <section id="why-choose-planb" className="py-16">
-    <div className="container text-bee-black">
-      <h2 className="text-3xl font-semibold text-center mb-8">
+  <section id="why-choose-planb" className="relative py-20">
+    {/* remove overlay entirely */}
+
+    <div className="relative container mx-auto text-bee-black">
+      <h2 className="text-4xl font-bold text-center mb-12 underline decoration-bee-red decoration-4">
         Why Choose Plan B?
       </h2>
-      <div className="grid gap-6 md:grid-cols-3">
-        {features.map((f) => (
+
+      <div className="grid gap-8 md:grid-cols-3 px-4 md:px-0">
+        {features.map((f, i) => (
           <div
             key={f.title}
-            className="p-6 bg-white/90 rounded-lg shadow-sm"
+            className="
+              group relative p-8 bg-white/90 backdrop-blur-sm rounded-2xl
+              shadow-md hover:shadow-xl transition-shadow duration-300
+              transform hover:-translate-y-2
+            "
           >
-            <h3 className="text-xl font-medium mb-2">{f.title}</h3>
-            <p className="text-gray-700">{f.desc}</p>
+            {/* colored sidebar */}
+            <div
+              className={`
+                absolute left-0 top-1/2 -translate-y-1/2 w-1 h-16
+                ${i === 0 ? 'bg-emerald-500'
+                  : i === 1 ? 'bg-cyan-500'
+                  : 'bg-fuchsia-500'}
+                rounded-full
+              `}
+            />
+
+            <h3 className="text-2xl font-semibold mb-4 group-hover:text-bee-red">
+              {f.title}
+            </h3>
+            <p className="text-gray-700 leading-relaxed">{f.desc}</p>
+
+            <span
+              className="
+                absolute bottom-4 right-4 text-bee-red opacity-0
+                group-hover:opacity-100 transition-opacity duration-300
+                font-bold
+              "
+            >
+              → Learn more
+            </span>
           </div>
         ))}
       </div>
     </div>
   </section>
-);
+)
 
-export default WhyChoosePlanB;
+export default WhyChoosePlanB
