@@ -8,46 +8,64 @@ interface JoinHiveProps {
   onBack: () => void
 }
 
+type FormData = {
+  fullName: string
+  email: string
+  phone: string
+  address: string
+  university: string
+  dob: string
+  hasCar: 'yes' | 'no'
+  hasExperience: 'yes' | 'no'
+  photo: File | null
+  resume: File | null
+}
+
 const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
     phone: '',
     address: '',
-    startDate: '',
-    availability: '',
-    resume: null as File | null,
+    university: '',
+    dob: '',
+    hasCar: 'no',
+    hasExperience: 'no',
+    photo: null,
+    resume: null,
   })
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value as any }))
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, resume: e.target.files?.[0] ?? null }))
+    const { name } = e.target
+    const file = e.target.files?.[0] ?? null
+    setFormData(prev => ({ ...prev, [name]: file }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     try {
-      const { error } = await supabase
-        .from('join_hive_requests')
-        .insert({
-          full_name:    formData.fullName,
-          email:        formData.email,
-          phone_number: formData.phone,
-          address:      formData.address,
-          start_date:   formData.startDate,
-          availability: formData.availability,
-          resume_url:   formData.resume?.name ?? null,
-        })
-      if (error) throw error
-
+      await supabase.from('join_hive_requests').insert({
+        full_name:      formData.fullName,
+        email:          formData.email,
+        phone_number:   formData.phone,
+        address:        formData.address,
+        university:     formData.university,
+        date_of_birth:  formData.dob,
+        has_car:        formData.hasCar,
+        has_experience: formData.hasExperience,
+        photo_url:      formData.photo?.name ?? null,
+        resume_url:     formData.resume?.name ?? null, // optional
+      })
       setIsSubmitted(true)
       setTimeout(() => {
         setIsSubmitted(false)
@@ -56,8 +74,11 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           email: '',
           phone: '',
           address: '',
-          startDate: '',
-          availability: '',
+          university: '',
+          dob: '',
+          hasCar: 'no',
+          hasExperience: 'no',
+          photo: null,
           resume: null,
         })
       }, 3000)
@@ -68,35 +89,20 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
     }
   }
 
-  // common wrapper style
   const wrapperClasses =
     'scroll-mt-24 relative py-20 min-h-screen bg-cover bg-center'
-  const wrapperStyle = {
-    backgroundImage: `url(${background3})`,
-  }
+  const wrapperStyle = { backgroundImage: `url(${background3})` }
 
   if (isSubmitted) {
     return (
-      <section
-        id="join-hive"
-        className={wrapperClasses}
-        style={wrapperStyle}
-      >
+      <section id="join-hive" className={wrapperClasses} style={wrapperStyle}>
         <div className="container text-center mx-auto max-w-xl">
           <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
             ← Back
           </button>
-          <div
-            className="
-              bg-white/30 backdrop-blur-md border border-white/20
-              rounded-2xl shadow-2xl animate-pulse p-12
-            "
-          >
+          <div className="bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl animate-pulse p-12">
             <div
-              className="
-                w-24 h-24 bg-honey rounded-full mx-auto mb-6
-                flex items-center justify-center
-              "
+              className="w-24 h-24 bg-honey rounded-full mx-auto mb-6 flex items-center justify-center"
               style={{
                 clipPath:
                   'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)',
@@ -117,25 +123,17 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   }
 
   return (
-    <section
-      id="join-hive"
-      className={wrapperClasses}
-      style={wrapperStyle}
-    >
+    <section id="join-hive" className={wrapperClasses} style={wrapperStyle}>
       <div className="container mx-auto max-w-4xl">
         <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
           ← Back
         </button>
-        <div
-          className="
-            mx-auto bg-white/30 backdrop-blur-md border border-white/20
-            rounded-2xl shadow-2xl p-8
-          "
-        >
+        <div className="mx-auto bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl p-8">
           <h2 className="text-4xl font-bold text-bee-black mb-6 text-center">
             Join Your Hive
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Personal Info */}
             <div className="grid md:grid-cols-2 gap-4">
               <input
                 type="text"
@@ -175,46 +173,89 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
               />
             </div>
 
+            {/* University & DOB */}
             <div className="grid md:grid-cols-2 gap-4">
               <label className="flex flex-col">
-                <span className="mb-1">Available Start Date</span>
+                <span className="mb-1">Current University</span>
                 <input
-                  type="date"
-                  name="startDate"
-                  value={formData.startDate}
+                  type="text"
+                  name="university"
+                  value={formData.university}
                   onChange={handleChange}
+                  placeholder="e.g. University of Jordan"
                   required
                   className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
                 />
               </label>
               <label className="flex flex-col">
-                <span className="mb-1">Availability</span>
+                <span className="mb-1">Date of Birth</span>
+                <input
+                  type="date"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                  required
+                  className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                />
+              </label>
+            </div>
+
+            {/* Photo & Resume */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <label className="flex flex-col">
+                <span className="mb-1">Insert a self-portrait</span>
+                <input
+                  type="file"
+                  name="photo"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  required
+                  className="px-4 py-2 border rounded focus:ring-2 focus:ring-honey"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="mb-1">Upload Resume </span>
+                <input
+                  type="file"
+                  name="resume"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleFileChange}
+                  className="px-4 py-2 border rounded focus:ring-2 focus:ring-honey"
+                />
+              </label>
+            </div>
+
+            {/* Car & Experience */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <label className="flex flex-col">
+                <span className="mb-1">Do you have a car?</span>
                 <select
-                  name="availability"
-                  value={formData.availability}
+                  name="hasCar"
+                  value={formData.hasCar}
                   onChange={handleChange}
                   required
                   className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
                 >
-                  <option value="">Select Availability</option>
-                  <option>Full-Time</option>
-                  <option>Part-Time</option>
-                  <option>Weekends</option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+              </label>
+              <label className="flex flex-col">
+                <span className="mb-1">Work experience?</span>
+                <select
+                  name="hasExperience"
+                  value={formData.hasExperience}
+                  onChange={handleChange}
+                  required
+                  className="px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                >
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
                 </select>
               </label>
             </div>
 
-            <label className="flex flex-col">
-              <span className="mb-1">Upload Resume</span>
-              <input
-                type="file"
-                accept=".pdf,.doc,.docx"
-                onChange={handleFileChange}
-                required
-                className="px-4 py-2 border rounded focus:ring-2 focus:ring-honey"
-              />
-            </label>
-
+            {/* Submit */}
             <div className="text-center">
               <button
                 type="submit"

@@ -200,7 +200,7 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
                   name="eventObjectives"
                   value={form.eventObjectives}
                   onChange={handleChange}
-                  placeholder="Event Objectives"
+                  placeholder="Short or Long term campigain"
                   rows={3}
                   required
                   className="px-4 py-3 border rounded focus:ring-2 focus:ring-bee-red"
