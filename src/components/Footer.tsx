@@ -125,7 +125,7 @@ const Footer: React.FC = () => {
                   href="mailto:thebeekeeper@planb.jo"
                   className="text-offwhite/70 hover:text-honey-dark transition-colors duration-300"
                 >
-                  thebeekeeper@planb.com
+                  thebeekeeper@plbee.com
                 </a>
               </li>
             </ul>
