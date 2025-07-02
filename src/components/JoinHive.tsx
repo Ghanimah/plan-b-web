@@ -50,29 +50,33 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
     setFormData(prev => ({ ...prev, [name]: file }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    try {
-      const { data, error } = await supabase
-        .from('join_hive_requests')
-        .insert({
-          full_name:      formData.fullName,
-          email:          formData.email,
-          phone_number:   formData.phone,
-          address:        formData.address,
-          university:     formData.university,
-          date_of_birth:  formData.dob,
-          has_car:        formData.hasCar,
-          has_experience: formData.hasExperience,
-          photo_url:      formData.photo?.name ?? null,
-          resume_url:     formData.resume?.name ?? null,
-        })
 
-      console.log({ data, error })
+    const payload = {
+      full_name:      formData.fullName,
+      email:          formData.email,
+      phone_number:   formData.phone,
+      address:        formData.address,
+      university:     formData.university,
+      date_of_birth:  formData.dob,
+      has_car:        formData.hasCar,
+      has_experience: formData.hasExperience,
+      photo_url:      formData.photo?.name ?? null,
+      resume_url:     formData.resume?.name ?? null,
+    }
 
-      if (error) throw error
+    const { data, error } = await supabase
+      .from('join_hive_requests')
+      .insert(payload)
 
+    console.log('Supabase insert response:', { data, error })
+
+    if (error) {
+      // Show the detailed message so you can debug
+      alert(`Submission failed:\n${error.message}`)
+    } else {
       setIsSubmitted(true)
       setTimeout(() => {
         setIsSubmitted(false)
@@ -89,13 +93,11 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           resume: null,
         })
       }, 3000)
-    } catch (err) {
-      console.error('Submission error:', err)
-      alert('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
     }
+
+    setLoading(false)
   }
+
 
   const wrapperClasses =
     'scroll-mt-24 relative py-16 min-h-screen bg-cover bg-center'
