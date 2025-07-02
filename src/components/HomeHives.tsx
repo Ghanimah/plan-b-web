@@ -1,3 +1,5 @@
+// src/components/HomeHives.tsx
+import React from 'react'
 import { Building2, User } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import background3 from '../assets/background3.png'
@@ -20,56 +22,56 @@ const teasers = [
 ]
 
 export default function HomeHives() {
-  const wrapperClasses = 'relative py-20 min-h-screen bg-cover bg-center bg-fixed'
+  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
   const wrapperStyle = { backgroundImage: `url(${background3})` }
 
   return (
-    <section
-      id="home-hives"
-      className={wrapperClasses}
-      style={wrapperStyle}
-    >
-      <div className="relative z-10 mx-auto max-w-6xl px-4 grid gap-8 md:grid-cols-2">
-        {teasers.map(({ icon: Icon, title, subtitle, to, bgColor }) => (
-          <Link
-            key={title}
-            to={to}
-            className="
-              group flex flex-col items-center text-center p-8
-              bg-white/30 backdrop-blur-md border border-white/20
-              rounded-2xl shadow-2xl
-              transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl
-            "
-          >
-            <div
-              className={`
-                ${bgColor} w-12 h-12 rounded-full
-                flex items-center justify-center mb-4
-                group-hover:scale-110 transition-transform duration-300
-              `}
-              style={{
-                clipPath:
-                  'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)',
-              }}
-            >
-              <Icon className="w-6 h-6 text-offwhite" />
-            </div>
-            <h3 className="text-2xl font-semibold text-bee-black mb-2">
-              {title}
-            </h3>
-            <p className="text-bee-black/70 mb-6">{subtitle}</p>
-            <span
+    <section id="home-hives" className={wrapperClasses} style={wrapperStyle}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {teasers.map(({ icon: Icon, title, subtitle, to, bgColor }) => (
+            <Link
+              key={title}
+              to={to}
               className="
-                inline-flex items-center px-6 py-3
-                bg-bee-red text-offwhite font-semibold
-                rounded-full shadow-lg
-                hover:scale-105 transition-transform duration-300
+                group flex flex-col items-center text-center p-6 sm:p-8
+                bg-white/30 backdrop-blur-md border border-white/20
+                rounded-2xl shadow-2xl
+                transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl
               "
             >
-              {title} &rarr;
-            </span>
-          </Link>
-        ))}
+              <div
+                className={`
+                  ${bgColor} w-12 h-12 sm:w-14 sm:h-14 rounded-full
+                  flex items-center justify-center mb-4
+                  group-hover:scale-110 transition-transform duration-300
+                `}
+                style={{
+                  clipPath:
+                    'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)',
+                }}
+              >
+                <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-offwhite" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-semibold text-bee-black mb-2">
+                {title}
+              </h3>
+              <p className="text-bee-black/70 mb-4 sm:mb-6 text-sm sm:text-base">
+                {subtitle}
+              </p>
+              <span
+                className="
+                  inline-flex items-center px-4 py-2 sm:px-6 sm:py-3
+                  bg-bee-red text-offwhite font-semibold
+                  rounded-full shadow-lg
+                  hover:scale-105 transition-transform duration-300
+                "
+              >
+                {title} →
+              </span>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   )

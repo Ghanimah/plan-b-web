@@ -1,3 +1,5 @@
+// src/components/WhoWeServe.tsx
+import React from 'react'
 import {
   Calendar,
   Megaphone,
@@ -54,39 +56,48 @@ const clientTypes = [
 ]
 
 export default function WhoWeServe() {
-  const wrapperClasses = 'relative py-16 min-h-screen bg-cover bg-center bg-fixed'
+  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
   const wrapperStyle = { backgroundImage: `url(${background3})` }
 
   return (
-    <section
-      id="who-we-serve"
-      className={wrapperClasses}
-      style={wrapperStyle}
-    >
-      <div className="relative z-10 max-w-7xl mx-auto px-4">
+    <section id="who-we-serve" className={wrapperClasses} style={wrapperStyle}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center text-bee-black mb-12">
-          <h2 className="text-4xl sm:text-5xl font-bold">Who We Serve</h2>
-          <p className="mt-4 text-lg sm:text-xl max-w-3xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+            Who We Serve
+          </h2>
+          <p className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto">
             We partner with a variety of clients—from event organizers to NGOs—providing tailored staffing solutions that elevate your operations.
           </p>
         </div>
 
-        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {clientTypes.map(({ icon: Icon, title, description, services, color }, idx) => (
             <div
               key={idx}
               className="
-                relative flex flex-col p-6
+                relative flex flex-col p-4 sm:p-6
                 bg-white/30 backdrop-blur-md border border-white/20
-                rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105
+                rounded-2xl shadow-lg transition-transform duration-300
+                hover:scale-105
               "
             >
-              <div className={`${color} w-12 h-12 rounded-full flex items-center justify-center mb-4`}>
-                <Icon className="w-6 h-6 text-white" />
+              <div
+                className={`${color} w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center mb-4 mx-auto`}
+                style={{
+                  clipPath:
+                    'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)',
+                }}
+              >
+                <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-offwhite" />
               </div>
-              <h3 className="text-xl font-semibold text-bee-black mb-2">{title}</h3>
-              <p className="text-bee-black/70 mb-4 flex-grow">{description}</p>
-              <ul className="list-disc list-inside text-sm text-bee-black/80 space-y-1">
+              <h3 className="text-lg sm:text-xl font-semibold text-bee-black mb-2 text-center">
+                {title}
+              </h3>
+              <p className="text-sm sm:text-base text-bee-black/70 mb-4 text-center">
+                {description}
+              </p>
+              <ul className="list-disc list-inside text-xs sm:text-sm text-bee-black/80 space-y-1">
                 {services.map((svc, i) => (
                   <li key={i}>{svc}</li>
                 ))}

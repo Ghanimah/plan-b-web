@@ -47,57 +47,58 @@ const hiveValues: HiveValue[] = [
 ]
 
 export const WhyTheBee: React.FC = () => {
-  const wrapperClasses = 'relative py-16 min-h-screen bg-cover bg-center bg-fixed'
+  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
   const wrapperStyle = { backgroundImage: `url(${background3})` }
 
   return (
-    <section
-      id="why-the-bee"
-      className={wrapperClasses}
-      style={wrapperStyle}
-    >
+    <section id="why-the-bee" className={wrapperClasses} style={wrapperStyle}>
       {/* Header */}
-      <div className="container mx-auto text-center mb-12 text-bee-black">
-        <h2 className="text-4xl font-bold mb-4">Why The Bee?</h2>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12 text-bee-black">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Why The Bee?</h2>
+        <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
           Our values mirror the natural wisdom of the hive—where individual strengths create collective success.
         </p>
       </div>
 
       {/* Values Grid */}
-      <div className="container mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
         {hiveValues.map((val, idx) => (
           <div
             key={idx}
             className="
-              relative flex flex-col p-6
+              relative flex flex-col p-4 sm:p-6
               bg-white/30 backdrop-blur-md border border-white/20
               rounded-2xl shadow-lg transition-transform duration-300
-              hover:-translate-y-2 hover:shadow-2xl
+              hover:-translate-y-1 hover:shadow-xl
             "
           >
             {/* Icon */}
-            <div className="relative mx-auto mb-6">
+            <div className="relative mx-auto mb-4">
               <div
                 className={`
-                  w-20 h-20 ${val.color}
+                  w-16 h-16 sm:w-20 sm:h-20 ${val.color}
                   flex items-center justify-center
-                  rounded-full
-                  transition-transform duration-300
+                  rounded-full transition-transform duration-300
                 `}
                 style={{
                   clipPath:
                     'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)',
                 }}
               >
-                <val.icon className="w-10 h-10 text-offwhite" />
+                <val.icon className="w-8 h-8 sm:w-10 sm:h-10 text-offwhite" />
               </div>
             </div>
 
             {/* Title & Descriptions */}
-            <h3 className="text-2xl font-semibold text-bee-black mb-2">{val.title}</h3>
-            <p className="text-gray-700 mb-4">{val.description}</p>
-            <p className="text-gray-600 text-sm">{val.detail}</p>
+            <h3 className="text-lg sm:text-xl font-semibold text-bee-black mb-2 text-center">
+              {val.title}
+            </h3>
+            <p className="text-sm sm:text-base text-gray-700 mb-3 text-center">
+              {val.description}
+            </p>
+            <p className="text-xs sm:text-sm text-gray-600 text-center">
+              {val.detail}
+            </p>
           </div>
         ))}
       </div>
