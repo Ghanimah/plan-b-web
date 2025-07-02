@@ -1,5 +1,3 @@
-// src/components/HomeHives.tsx
-import React from 'react'
 import { Building2, User } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import background3 from '../assets/background3.png'

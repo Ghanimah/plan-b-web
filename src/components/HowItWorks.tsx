@@ -1,5 +1,3 @@
-// src/components/HowItWorks.tsx
-import React from 'react'
 import bgHowItWorks from '../assets/background3.png'
 
 const steps = [
