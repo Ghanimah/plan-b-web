@@ -50,33 +50,59 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
     setFormData(prev => ({ ...prev, [name]: file }))
   }
 
-    const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    try {
+      // 1) Upload portrait
+      let publicPhotoURL: string | null = null
+      if (formData.photo) {
+        const fileName = `${Date.now()}_${formData.photo.name}`
+        const { data: uploadData, error: uploadError } = await supabase
+          .storage
+          .from('self-portrait')
+          .upload(fileName, formData.photo)
+        if (uploadError) throw uploadError
+        const { data: urlData } = supabase
+          .storage
+          .from('self-portrait')
+          .getPublicUrl(uploadData.path)
+        publicPhotoURL = urlData.publicUrl
+      }
 
-    const payload = {
-      full_name:      formData.fullName,
-      email:          formData.email,
-      phone_number:   formData.phone,
-      address:        formData.address,
-      university:     formData.university,
-      date_of_birth:  formData.dob,
-      has_car:        formData.hasCar,
-      has_experience: formData.hasExperience,
-      photo_url:      formData.photo?.name ?? null,
-      resume_url:     formData.resume?.name ?? null,
-    }
+      // 2) Optionally upload resume
+      let publicResumeURL: string | null = null
+      if (formData.resume) {
+        const fileName = `${Date.now()}_${formData.resume.name}`
+        const { data: uploadData, error: uploadError } = await supabase
+          .storage
+          .from('resumes')
+          .upload(fileName, formData.resume)
+        if (uploadError) throw uploadError
+        const { data: urlData } = supabase
+          .storage
+          .from('resumes')
+          .getPublicUrl(uploadData.path)
+        publicResumeURL = urlData.publicUrl
+      }
 
-    const { data, error } = await supabase
-      .from('join_hive_requests')
-      .insert(payload)
+      // 3) Insert into table
+      const { error } = await supabase
+        .from('join_hive_requests')
+        .insert({
+          full_name:      formData.fullName,
+          email:          formData.email,
+          phone_number:   formData.phone,
+          address:        formData.address,
+          university:     formData.university,
+          date_of_birth:  formData.dob,
+          has_car:        formData.hasCar,
+          has_experience: formData.hasExperience,
+          photo_url:      publicPhotoURL,
+          resume_url:     publicResumeURL,
+        })
+      if (error) throw error
 
-    console.log('Supabase insert response:', { data, error })
-
-    if (error) {
-      // Show the detailed message so you can debug
-      alert(`Submission failed:\n${error.message}`)
-    } else {
       setIsSubmitted(true)
       setTimeout(() => {
         setIsSubmitted(false)
@@ -93,11 +119,12 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           resume: null,
         })
       }, 3000)
+    } catch (err: any) {
+      alert(`Submission failed:\n${err.message}`)
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }
-
 
   const wrapperClasses =
     'scroll-mt-24 relative py-16 min-h-screen bg-cover bg-center'
@@ -134,6 +161,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           Join Your Hive
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Personal Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"
@@ -173,6 +201,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             />
           </div>
 
+          {/* University & DOB */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label className="flex flex-col">
               <span className="mb-1 text-sm sm:text-base">Current University</span>
@@ -199,6 +228,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             </label>
           </div>
 
+          {/* Photo & Resume */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label className="flex flex-col">
               <span className="mb-1 text-sm sm:text-base">Insert a self-portrait</span>
@@ -223,6 +253,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             </label>
           </div>
 
+          {/* Car & Experience */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label className="flex flex-col">
               <span className="mb-1 text-sm sm:text-base">Do you have a car?</span>
@@ -252,6 +283,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             </label>
           </div>
 
+          {/* Submit */}
           <div className="text-center">
             <button
               type="submit"
