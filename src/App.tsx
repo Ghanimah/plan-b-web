@@ -1,4 +1,3 @@
-// src/App.tsx
 import React from 'react'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
@@ -14,6 +13,7 @@ import ContactUsIntro from './components/ContactUsIntro'
 import BuildHive from './components/BuildHive'
 import JoinHive from './components/JoinHive'
 import Footer from './components/Footer'
+import SubmissionGallery from './components/SubmissionGallery'
 
 // Wrapper to inject onBack via useNavigate
 const RoutedBuildHive: React.FC = () => {
@@ -84,6 +84,9 @@ const App: React.FC = () => (
             </>
           }
         />
+
+        {/* ADMIN: Submission Gallery */}
+        <Route path="/admin/submissions" element={<SubmissionGallery />} />
 
         {/* Fallback */}
         <Route path="*" element={<Hero />} />
