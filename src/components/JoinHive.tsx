@@ -53,41 +53,42 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+
     try {
-      // 1) Upload portrait
-      let publicPhotoURL: string | null = null
+      // 1) upload selfie
+      let photo_url: string | null = null
       if (formData.photo) {
-        const fileName = `${Date.now()}_${formData.photo.name}`
-        const { data: uploadData, error: uploadError } = await supabase
+        const path = `selfies/${Date.now()}_${formData.photo.name}`
+        const { data: uploadPhoto, error: photoErr } = await supabase
           .storage
           .from('self-portrait')
-          .upload(fileName, formData.photo)
-        if (uploadError) throw uploadError
-        const { data: urlData } = supabase
+          .upload(path, formData.photo, { upsert: false })
+        if (photoErr) throw photoErr
+        photo_url = supabase
           .storage
           .from('self-portrait')
-          .getPublicUrl(uploadData.path)
-        publicPhotoURL = urlData.publicUrl
+          .getPublicUrl(uploadPhoto.path)
+          .data.publicUrl
       }
 
-      // 2) Optionally upload resume
-      let publicResumeURL: string | null = null
+      // 2) upload resume (optional)
+      let resume_url: string | null = null
       if (formData.resume) {
-        const fileName = `${Date.now()}_${formData.resume.name}`
-        const { data: uploadData, error: uploadError } = await supabase
+        const path = `resumes/${Date.now()}_${formData.resume.name}`
+        const { data: uploadRes, error: resErr } = await supabase
           .storage
-          .from('resumes')
-          .upload(fileName, formData.resume)
-        if (uploadError) throw uploadError
-        const { data: urlData } = supabase
+          .from('self-portrait')
+          .upload(path, formData.resume, { upsert: false })
+        if (resErr) throw resErr
+        resume_url = supabase
           .storage
-          .from('resumes')
-          .getPublicUrl(uploadData.path)
-        publicResumeURL = urlData.publicUrl
+          .from('self-portrait')
+          .getPublicUrl(uploadRes.path)
+          .data.publicUrl
       }
 
-      // 3) Insert into table
-      const { error } = await supabase
+      // 3) insert metadata row
+      const { error: insertErr } = await supabase
         .from('join_hive_requests')
         .insert({
           full_name:      formData.fullName,
@@ -98,10 +99,10 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           date_of_birth:  formData.dob,
           has_car:        formData.hasCar,
           has_experience: formData.hasExperience,
-          photo_url:      publicPhotoURL,
-          resume_url:     publicResumeURL,
+          photo_url,
+          resume_url,
         })
-      if (error) throw error
+      if (insertErr) throw insertErr
 
       setIsSubmitted(true)
       setTimeout(() => {
@@ -119,8 +120,10 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           resume: null,
         })
       }, 3000)
-    } catch (err: any) {
-      alert(`Submission failed:\n${err.message}`)
+
+    } catch (error: any) {
+      console.error('Submission error:', error)
+      alert(`Submission failed:\n${error.message}`)
     } finally {
       setLoading(false)
     }
@@ -164,39 +167,23 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           {/* Personal Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="Full Name"
-              required
+              type="text" name="fullName" value={formData.fullName}
+              onChange={handleChange} placeholder="Full Name" required
               className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
             />
             <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              required
+              type="email" name="email" value={formData.email}
+              onChange={handleChange} placeholder="Email" required
               className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
             />
             <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone Number"
-              required
+              type="tel" name="phone" value={formData.phone}
+              onChange={handleChange} placeholder="Phone Number" required
               className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
             />
             <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              placeholder="Address"
-              required
+              type="text" name="address" value={formData.address}
+              onChange={handleChange} placeholder="Address" required
               className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
             />
           </div>
@@ -206,23 +193,16 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             <label className="flex flex-col">
               <span className="mb-1 text-sm sm:text-base">Current University</span>
               <input
-                type="text"
-                name="university"
-                value={formData.university}
-                onChange={handleChange}
-                placeholder="e.g. University of Jordan"
-                required
+                type="text" name="university" value={formData.university}
+                onChange={handleChange} placeholder="e.g. University of Jordan" required
                 className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
               />
             </label>
             <label className="flex flex-col">
               <span className="mb-1 text-sm sm:text-base">Date of Birth</span>
               <input
-                type="date"
-                name="dob"
-                value={formData.dob}
-                onChange={handleChange}
-                required
+                type="date" name="dob" value={formData.dob}
+                onChange={handleChange} required
                 className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
               />
             </label>
@@ -233,20 +213,15 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             <label className="flex flex-col">
               <span className="mb-1 text-sm sm:text-base">Insert a self-portrait</span>
               <input
-                type="file"
-                name="photo"
-                accept="image/*"
-                onChange={handleFileChange}
-                required
+                type="file" name="photo" accept="image/*"
+                onChange={handleFileChange} required
                 className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-honey"
               />
             </label>
             <label className="flex flex-col">
               <span className="mb-1 text-sm sm:text-base">Upload Resume (optional)</span>
               <input
-                type="file"
-                name="resume"
-                accept=".pdf,.doc,.docx"
+                type="file" name="resume" accept=".pdf,.doc,.docx"
                 onChange={handleFileChange}
                 className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-honey"
               />
@@ -258,10 +233,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             <label className="flex flex-col">
               <span className="mb-1 text-sm sm:text-base">Do you have a car?</span>
               <select
-                name="hasCar"
-                value={formData.hasCar}
-                onChange={handleChange}
-                required
+                name="hasCar" value={formData.hasCar} onChange={handleChange} required
                 className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
               >
                 <option value="yes">Yes</option>
@@ -271,10 +243,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             <label className="flex flex-col">
               <span className="mb-1 text-sm sm:text-base">Work experience?</span>
               <select
-                name="hasExperience"
-                value={formData.hasExperience}
-                onChange={handleChange}
-                required
+                name="hasExperience" value={formData.hasExperience} onChange={handleChange} required
                 className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
               >
                 <option value="yes">Yes</option>
@@ -286,8 +255,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           {/* Submit */}
           <div className="text-center">
             <button
-              type="submit"
-              disabled={loading}
+              type="submit" disabled={loading}
               className={`w-full md:w-auto px-6 py-3 rounded-full font-semibold transition ${
                 loading
                   ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
