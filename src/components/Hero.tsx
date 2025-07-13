@@ -1,4 +1,3 @@
-// src/components/Hero.tsx
 import React, { useEffect, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -37,9 +36,9 @@ const Hero: React.FC = () => {
       {/* React-Router Links */}
       <div
         className={`
-            className={
           absolute left-1/2 top-[60%] -translate-x-1/2
-          flex space-x-6 z-10
+          flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6
+          w-full px-4 sm:w-auto sm:px-0
           transform transition-opacity duration-700
           ${mounted ? 'opacity-100' : 'opacity-0'}
         `}
@@ -47,11 +46,11 @@ const Hero: React.FC = () => {
         <Link
           to="/build-hive"
           className="
-            px-6 py-2 sm:px-8 sm:py-3
+            px-6 py-3 sm:px-8 sm:py-3
             bg-yellow-400 text-black font-semibold rounded-full
             transform transition duration-500 ease-out
             hover:-translate-y-1 hover:shadow-lg
-            text-center w-3/4 sm:w-auto
+            text-center w-full sm:w-auto
           "
         >
           Build Your Hive
@@ -59,11 +58,11 @@ const Hero: React.FC = () => {
         <Link
           to="/join-hive"
           className="
-            px-6 py-2 sm:px-8 sm:py-3
+            px-6 py-3 sm:px-8 sm:py-3
             bg-transparent border-2 border-yellow-400 text-yellow-400 font-semibold rounded-full
             transform transition duration-500 ease-out
             hover:bg-yellow-400 hover:text-black hover:shadow-lg
-            text-center w-3/4 sm:w-auto
+            text-center w-full sm:w-auto
           "
         >
           Join Your Hive

@@ -13,7 +13,7 @@ const teasers = [
   {
     icon: User,
     title: 'Join Your Hive',
-    subtitle: `Start your journey with Jordan’s leading recruitment platform`,
+    subtitle: `Start your journey with Jordan's leading recruitment platform`,
     to: '/join-hive',
     bgColor: 'bg-honey',
   },
@@ -26,13 +26,14 @@ export default function HomeHives() {
   return (
     <section id="home-hives" className={wrapperClasses} style={wrapperStyle}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        <div className="relative z-10 grid grid-cols-1 gap-6 lg:gap-8">
           {teasers.map(({ icon: Icon, title, subtitle, to, bgColor }) => (
             <Link
               key={title}
               to={to}
               className="
-                group flex flex-col items-center text-center p-6 sm:p-8
+                group flex flex-col items-center text-center 
+                p-6 sm:p-8 mx-4 sm:mx-0
                 bg-white/30 backdrop-blur-md border border-white/20
                 rounded-2xl shadow-2xl
                 transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl

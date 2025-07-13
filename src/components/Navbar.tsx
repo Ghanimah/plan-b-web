@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
@@ -74,15 +73,16 @@ export const Navbar: React.FC = () => {
 
         {/* mobile menu button */}
         <button
-          className="md:hidden text-offwhite"
+          className="md:hidden text-offwhite p-2"
           onClick={() => setMenuOpen(o => !o)}
+          aria-label="Toggle menu"
         >
           {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
 
         {/* mobile menu */}
         {menuOpen && (
-          <div className="absolute top-full inset-x-0 bg-black/90 backdrop-blur-md md:hidden">
+          <div className="absolute top-full inset-x-0 bg-black/90 backdrop-blur-md md:hidden max-h-[calc(100vh-80px)] overflow-y-auto">
             <ul className="flex flex-col space-y-2 px-4 py-4">
               {navItems.map(({ label, to }) => {
                 const isActive = active === to
@@ -92,8 +92,8 @@ export const Navbar: React.FC = () => {
                       to={to}
                       onClick={() => setMenuOpen(false)}
                       className={`
-                        block uppercase text-sm font-medium
-                        px-4 py-2 rounded-full
+                        block uppercase text-base font-medium
+                        px-6 py-3 rounded-full
                         transition-colors duration-200
                         ${
                           isActive
