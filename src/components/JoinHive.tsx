@@ -219,7 +219,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
               />
             </label>
             <label className="flex flex-col">
-              <span className="mb-1 text-sm sm:text-base">Upload Resume (optional)</span>
+              <span className="mb-1 text-sm sm:text-base">Upload Resume</span>
               <input
                 type="file" name="resume" accept=".pdf,.doc,.docx"
                 onChange={handleFileChange}
