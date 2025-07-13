@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="https://www.linkedin.com/company/planb"
+                href="https://www.linkedin.com/company/plbee"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-bee-black rounded-full flex items-center justify-center hover:bg-honey hover:text-bee-black transition-colors duration-300"
