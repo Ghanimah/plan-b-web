@@ -6,10 +6,8 @@ import {
   Phone,
   Mail,
   MapPin,
-  Facebook,
   Instagram,
   Linkedin,
-  Twitter,
 } from 'lucide-react'
 
 const Footer: React.FC = () => {
@@ -39,24 +37,35 @@ const Footer: React.FC = () => {
             </div>
 
             <p className="text-offwhite/70 mb-6 leading-relaxed max-w-md">
-              Jordan’s leading student recruitment platform connecting businesses
+              Jordan's leading student recruitment platform connecting businesses
               with trained, reliable talent. We build hives. We gain trust.
             </p>
 
             <div className="flex space-x-4">
-              {[Facebook, Instagram, Linkedin, Twitter].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-10 h-10 bg-bee-black rounded-full flex items-center justify-center hover:bg-honey hover:text-bee-black transition-colors duration-300"
-                  style={{
-                    clipPath:
-                      'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                  }}
-                >
-                  <Icon className="w-5 h-5" />
-                </a>
-              ))}
+              <a
+                href="https://www.instagram.com/plnb.jo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-bee-black rounded-full flex items-center justify-center hover:bg-honey hover:text-bee-black transition-colors duration-300"
+                style={{
+                  clipPath:
+                    'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
+                }}
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/planb"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-bee-black rounded-full flex items-center justify-center hover:bg-honey hover:text-bee-black transition-colors duration-300"
+                style={{
+                  clipPath:
+                    'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
+                }}
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
             </div>
           </div>
 
@@ -113,7 +122,7 @@ const Footer: React.FC = () => {
               <li className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-honey-dark flex-shrink-0" />
                 <a
-                  href="tel:+962-XXX-XXXX"
+                  href="tel:+962792233340"
                   className="text-offwhite/70 hover:text-honey-dark transition-colors duration-300"
                 >
                   +962792233340
