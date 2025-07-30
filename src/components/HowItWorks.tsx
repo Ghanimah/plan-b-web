@@ -1,4 +1,7 @@
+// src/components/HowItWorks.tsx
+import React, { useEffect, useState } from 'react'
 import bgHowItWorks from '../assets/background3.png'
+import background6 from '../assets/background6.png'
 
 const steps = [
   { icon: '💬', title: 'Client Inquiry', description: 'Receive requirements from companies.', step: 'Step 1' },
@@ -12,13 +15,33 @@ const steps = [
 ]
 
 export default function HowItWorks() {
-  const wrapperClasses = 'relative py-16 sm:py-20 bg-cover bg-center bg-fixed'
-  const wrapperStyle = {
-    backgroundImage: `url(${bgHowItWorks})`,
-  }
+  // responsive background: desktop = bgHowItWorks, mobile (<640px) = background6
+  const [bgImage, setBgImage] = useState(bgHowItWorks)
+
+  useEffect(() => {
+    function updateBg() {
+      setBgImage(window.innerWidth < 640 ? background6 : bgHowItWorks)
+    }
+    updateBg()
+    window.addEventListener('resize', updateBg)
+    return () => window.removeEventListener('resize', updateBg)
+  }, [])
+
+  const wrapperClasses = 'relative py-16 sm:py-20 bg-cover bg-center'
 
   return (
-    <section id="how-it-works" className={wrapperClasses} style={wrapperStyle}>
+    <section
+      id="how-it-works"
+      className={wrapperClasses}
+      style={{
+        backgroundColor: '#000',
+        backgroundImage: `url(${bgImage})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundAttachment: 'scroll',
+      }}
+    >
       {/* Header */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-bee-black">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">How It Works</h2>
