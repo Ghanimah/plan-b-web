@@ -11,7 +11,9 @@ const Hero: React.FC = () => {
       id="hero"
       className="
         relative h-screen overflow-hidden bg-black
-        bg-[url('/assets/honeycomb-pattern.png')] bg-cover bg-center
+        bg-[url('/assets/honeycomb-pattern.png')] 
+        bg-[length:200%_auto] bg-top
+        sm:bg-cover sm:bg-center
       "
     >
       {/* Headline */}
