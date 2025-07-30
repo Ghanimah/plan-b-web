@@ -1,5 +1,5 @@
 // src/components/WhatWeOffer.tsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Megaphone,
   UserCheck,
@@ -14,7 +14,8 @@ import {
   Award,
   Globe,
 } from 'lucide-react'
-import background3 from '../assets/background3.png'
+import bgHowItWorks from '../assets/background3.png'
+import background6 from '../assets/background6.png'
 
 export const WhatWeOffer: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'clients' | 'students'>('clients')
@@ -42,11 +43,32 @@ export const WhatWeOffer: React.FC = () => {
   const cardBase =
     'relative flex flex-col p-4 sm:p-6 rounded-2xl bg-white/30 backdrop-blur-md border border-white/20 shadow-lg transition-transform duration-300 hover:-translate-y-1'
 
-  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
-  const wrapperStyle = { backgroundImage: `url(${background3})` }
+  // responsive background: desktop = bgHowItWorks, mobile (<640px) = background6
+  const [bgImage, setBgImage] = useState(bgHowItWorks)
+  useEffect(() => {
+    function updateBg() {
+      setBgImage(window.innerWidth < 640 ? background6 : bgHowItWorks)
+    }
+    updateBg()
+    window.addEventListener('resize', updateBg)
+    return () => window.removeEventListener('resize', updateBg)
+  }, [])
+
+  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center'
 
   return (
-    <section id="what-we-offer" className={wrapperClasses} style={wrapperStyle}>
+    <section
+      id="what-we-offer"
+      className={wrapperClasses}
+      style={{
+        backgroundColor: '#000',
+        backgroundImage: `url(${bgImage})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundAttachment: 'scroll',
+      }}
+    >
       {/* Header */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-bee-black mb-4">
