@@ -1,6 +1,10 @@
+// src/components/HomeHives.tsx
+import React, { useEffect, useState } from 'react'
 import { Building2, User } from 'lucide-react'
 import { Link } from 'react-router-dom'
+
 import background3 from '../assets/background3.png'
+import background6 from '../assets/background6.png'
 
 const teasers = [
   {
@@ -19,12 +23,29 @@ const teasers = [
   },
 ]
 
-export default function HomeHives() {
-  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
-  const wrapperStyle = { backgroundImage: `url(${background3})` }
+const HomeHives: React.FC = () => {
+  // swap bg on mobile vs desktop
+  const [bgImage, setBgImage] = useState<string>(background3)
+
+  useEffect(() => {
+    function updateBg() {
+      setBgImage(window.innerWidth < 640 ? background6 : background3)
+    }
+    updateBg()
+    window.addEventListener('resize', updateBg)
+    return () => window.removeEventListener('resize', updateBg)
+  }, [])
+
+  const wrapperClasses =
+    'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
+  const wrapperStyle = { backgroundImage: `url(${bgImage})` }
 
   return (
-    <section id="home-hives" className={wrapperClasses} style={wrapperStyle}>
+    <section
+      id="home-hives"
+      className={wrapperClasses}
+      style={wrapperStyle}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative z-10 grid grid-cols-1 gap-6 lg:gap-8">
           {teasers.map(({ icon: Icon, title, subtitle, to, bgColor }) => (
@@ -75,3 +96,5 @@ export default function HomeHives() {
     </section>
   )
 }
+
+export default HomeHives
