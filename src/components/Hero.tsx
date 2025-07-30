@@ -1,20 +1,37 @@
+// src/components/Hero.tsx
 import React, { useEffect, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { Link } from 'react-router-dom'
+
+// new imports:
+import honeycombPattern from '../assets/honeycomb-pattern.png'
+import mobileBackground from '../assets/mobilebackground.png'
 
 const Hero: React.FC = () => {
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
 
+  // responsive background image state:
+  const [bgImage, setBgImage] = useState(honeycombPattern)
+  useEffect(() => {
+    const updateBg = () => {
+      setBgImage(window.innerWidth < 640 ? mobileBackground : honeycombPattern)
+    }
+    updateBg()
+    window.addEventListener('resize', updateBg)
+    return () => window.removeEventListener('resize', updateBg)
+  }, [])
+
   return (
     <section
       id="hero"
       className="
-        relative h-screen overflow-hidden bg-black
-        bg-[url('/assets/honeycomb-pattern.png')] 
-        bg-[length:200%_auto] bg-top
-        sm:bg-cover sm:bg-center
+        relative h-screen overflow-hidden bg-black bg-top sm:bg-center
       "
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: window.innerWidth < 640 ? 'auto' : 'cover',
+      }}
     >
       {/* Headline */}
       <div
