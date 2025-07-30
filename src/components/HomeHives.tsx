@@ -38,13 +38,17 @@ const HomeHives: React.FC = () => {
 
   const wrapperClasses =
     'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
-  const wrapperStyle = { backgroundImage: `url(${bgImage})` }
 
   return (
     <section
       id="home-hives"
       className={wrapperClasses}
-      style={wrapperStyle}
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: bgImage === background6 ? 'contain' : 'cover',
+        backgroundPosition: 'center center',
+      }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative z-10 grid grid-cols-1 gap-6 lg:gap-8">
