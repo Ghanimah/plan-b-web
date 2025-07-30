@@ -3,19 +3,21 @@ import React, { useEffect, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-// new imports:
-import honeycombPattern from '../assets/honeycomb-pattern.png'
-import mobilebackground from '../assets/mobilebackground.png'
+// Public URL for your desktop pattern:
+const HERO_DESKTOP = '/assets/honeycomb-pattern.png'
+// Import your mobile asset from src/assets:
+import mobileBackground from '../assets/mobilebackground.png'
 
 const Hero: React.FC = () => {
+  // trigger your entrance animations
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
 
-  // responsive background image state:
-  const [bgImage, setBgImage] = useState(honeycombPattern)
+  // responsive background state
+  const [bgImage, setBgImage] = useState<string>(HERO_DESKTOP)
   useEffect(() => {
     const updateBg = () => {
-      setBgImage(window.innerWidth < 640 ? mobilebackground : honeycombPattern)
+      setBgImage(window.innerWidth < 640 ? mobileBackground : HERO_DESKTOP)
     }
     updateBg()
     window.addEventListener('resize', updateBg)
@@ -25,9 +27,7 @@ const Hero: React.FC = () => {
   return (
     <section
       id="hero"
-      className="
-        relative h-screen overflow-hidden bg-black bg-top sm:bg-center
-      "
+      className="relative h-screen overflow-hidden bg-black bg-top sm:bg-center"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: window.innerWidth < 640 ? 'auto' : 'cover',
@@ -36,8 +36,7 @@ const Hero: React.FC = () => {
       {/* Headline */}
       <div
         className={`
-          absolute
-          inset-x-0
+          absolute inset-x-0
           ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5'}
           top-20 sm:top-32
           px-4 sm:px-12 lg:px-24
