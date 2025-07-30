@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 // new imports:
 import honeycombPattern from '../assets/honeycomb-pattern.png'
-import mobileBackground from '../assets/mobilebackground.png'
+import mobilebackground from '../assets/mobilebackground.png'
 
 const Hero: React.FC = () => {
   const [mounted, setMounted] = useState(false)
@@ -15,7 +15,7 @@ const Hero: React.FC = () => {
   const [bgImage, setBgImage] = useState(honeycombPattern)
   useEffect(() => {
     const updateBg = () => {
-      setBgImage(window.innerWidth < 640 ? mobileBackground : honeycombPattern)
+      setBgImage(window.innerWidth < 640 ? mobilebackground : honeycombPattern)
     }
     updateBg()
     window.addEventListener('resize', updateBg)
