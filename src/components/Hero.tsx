@@ -3,17 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-// Public URL for your desktop pattern:
+// Desktop asset lives in public/assets:
 const HERO_DESKTOP = '/assets/honeycomb-pattern.png'
-// Import your mobile asset from src/assets:
+// Mobile asset imported from src/assets:
 import mobileBackground from '../assets/mobilebackground.png'
 
 const Hero: React.FC = () => {
-  // trigger your entrance animations
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
 
-  // responsive background state
+  // responsive background swap
   const [bgImage, setBgImage] = useState<string>(HERO_DESKTOP)
   useEffect(() => {
     const updateBg = () => {
@@ -27,10 +26,12 @@ const Hero: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative h-screen overflow-hidden bg-black bg-top sm:bg-center"
+      className="relative h-screen overflow-hidden bg-black"
       style={{
         backgroundImage: `url(${bgImage})`,
-        backgroundSize: window.innerWidth < 640 ? 'auto' : 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: window.innerWidth < 640 ? 'contain' : 'cover',
+        backgroundPosition: 'center center',
       }}
     >
       {/* Headline */}
