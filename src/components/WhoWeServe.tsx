@@ -1,3 +1,5 @@
+// src/components/WhoWeServe.tsx
+import React, { useEffect, useState } from 'react'
 import {
   Calendar,
   Megaphone,
@@ -7,6 +9,7 @@ import {
   Heart,
 } from 'lucide-react'
 import background3 from '../assets/background3.png'
+import background6 from '../assets/background6.png'
 
 const clientTypes = [
   {
@@ -54,11 +57,33 @@ const clientTypes = [
 ]
 
 export default function WhoWeServe() {
-  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
-  const wrapperStyle = { backgroundImage: `url(${background3})` }
+  // responsive background: desktop = background3, mobile (<640px) = background6
+  const [bgImage, setBgImage] = useState(background3)
+
+  useEffect(() => {
+    function updateBg() {
+      setBgImage(window.innerWidth < 640 ? background6 : background3)
+    }
+    updateBg()
+    window.addEventListener('resize', updateBg)
+    return () => window.removeEventListener('resize', updateBg)
+  }, [])
+
+  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center'
 
   return (
-    <section id="who-we-serve" className={wrapperClasses} style={wrapperStyle}>
+    <section
+      id="who-we-serve"
+      className={wrapperClasses}
+      style={{
+        backgroundColor: '#000',
+        backgroundImage: `url(${bgImage})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundAttachment: 'scroll',
+      }}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center text-bee-black mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
