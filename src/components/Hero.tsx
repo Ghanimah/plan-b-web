@@ -34,9 +34,10 @@ const Hero: React.FC = () => {
         backgroundPosition: 'center center',
       }}
     >
-      {/* Headline */}
+      {/* Headline: hidden on mobile, shown sm+ */}
       <div
         className={`
+          hidden sm:block
           absolute inset-x-0
           ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5'}
           top-20 sm:top-32
