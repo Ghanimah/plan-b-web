@@ -25,7 +25,7 @@ const teasers = [
 
 const HomeHives: React.FC = () => {
   // swap bg on mobile vs desktop
-  const [bgImage, setBgImage] = useState<string>(background3)
+  const [bgImage, setBgImage] = useState(background3)
 
   useEffect(() => {
     function updateBg() {
@@ -37,17 +37,19 @@ const HomeHives: React.FC = () => {
   }, [])
 
   const wrapperClasses =
-    'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
+    'relative py-16 sm:py-20 min-h-screen bg-cover bg-center'
 
   return (
     <section
       id="home-hives"
       className={wrapperClasses}
       style={{
+        backgroundColor: '#000',
         backgroundImage: `url(${bgImage})`,
         backgroundRepeat: 'no-repeat',
-        backgroundSize: bgImage === background6 ? 'contain' : 'cover',
+        backgroundSize: 'cover',
         backgroundPosition: 'center center',
+        backgroundAttachment: 'scroll',
       }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
