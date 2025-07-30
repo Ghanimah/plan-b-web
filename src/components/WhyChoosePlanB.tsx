@@ -1,6 +1,7 @@
 // src/components/WhyChoosePlanB.tsx
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import background3 from '../assets/background3.png'
+import background6 from '../assets/background6.png'
 
 const features = [
   { title: 'Targeted Talent', desc: 'Connect with students who match your brand’s values and needs.' },
@@ -9,11 +10,32 @@ const features = [
 ]
 
 export const WhyChoosePlanB: React.FC = () => {
-  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center bg-fixed'
-  const wrapperStyle = { backgroundImage: `url(${background3})` }
+  // responsive background: desktop = background3, mobile (<640px) = background6
+  const [bgImage, setBgImage] = useState(background3)
+  useEffect(() => {
+    function updateBg() {
+      setBgImage(window.innerWidth < 640 ? background6 : background3)
+    }
+    updateBg()
+    window.addEventListener('resize', updateBg)
+    return () => window.removeEventListener('resize', updateBg)
+  }, [])
+
+  const wrapperClasses = 'relative py-16 sm:py-20 min-h-screen bg-cover bg-center'
 
   return (
-    <section id="why-choose-planb" className={wrapperClasses} style={wrapperStyle}>
+    <section
+      id="why-choose-planb"
+      className={wrapperClasses}
+      style={{
+        backgroundColor: '#000',
+        backgroundImage: `url(${bgImage})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundAttachment: 'scroll',
+      }}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-bee-black">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12 underline decoration-bee-red decoration-4">
           Why Choose Plan B?
@@ -43,11 +65,7 @@ export const WhyChoosePlanB: React.FC = () => {
                 {f.desc}
               </p>
               <span
-                className="
-                  absolute bottom-4 right-4 text-bee-red opacity-0
-                  group-hover:opacity-100 transition-opacity duration-300
-                  font-bold text-sm
-                "
+                className="absolute bottom-4 right-4 text-bee-red opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-bold text-sm"
               >
                 → Learn more
               </span>
