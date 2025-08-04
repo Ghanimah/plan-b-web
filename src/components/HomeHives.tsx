@@ -21,6 +21,13 @@ const teasers = [
     to: '/join-hive',
     bgColor: 'bg-honey',
   },
+  {
+    icon: User,
+    title: 'Join The Royal Swarm',
+    subtitle: `Start your journey with Jordan's leading recruitment platform`,
+    to: '/join-royal-swarm',
+    bgColor: 'bg-honey',
+  },
 ]
 
 const HomeHives: React.FC = () => {

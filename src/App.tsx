@@ -1,6 +1,8 @@
+// src/App.tsx
 import React from 'react'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
+import ScrollToTop from './components/ScrollToTop'
 import Hero from './components/Hero'
 import HowItWorks from './components/HowItWorks'
 import WhoWeServe from './components/WhoWeServe'
@@ -12,6 +14,7 @@ import StickySupport from './components/StickySupport'
 import ContactUsIntro from './components/ContactUsIntro'
 import BuildHive from './components/BuildHive'
 import JoinHive from './components/JoinHive'
+import JoinRoyalSwarm from './components/JoinRoyalSwarm'
 import Footer from './components/Footer'
 import SubmissionGallery from './components/SubmissionGallery'
 
@@ -26,8 +29,14 @@ const RoutedJoinHive: React.FC = () => {
   return <JoinHive onBack={() => navigate(-1)} />
 }
 
+const RoutedJoinRoyalSwarm: React.FC = () => {
+  const navigate = useNavigate()
+  return <JoinRoyalSwarm onBack={() => navigate(-1)} />
+}
+
 const App: React.FC = () => (
   <BrowserRouter>
+    <ScrollToTop />    {/* ← this ensures every navigation scrolls to top */}
     <Navbar />
 
     <div className="min-h-screen">
@@ -37,7 +46,6 @@ const App: React.FC = () => (
           path="/"
           element={
             <>
-              {/* background wrapper for Hero, HomeHives, WhyChoosePlanB */}
               <div
                 className="
                   bg-[url('/assets/background3.png')]
@@ -46,14 +54,10 @@ const App: React.FC = () => (
               >
                 <Hero />
                 <HomeHives />
-
-                {/* About Us */}
                 <section id="about-us">
                   <WhyChoosePlanB />
                 </section>
               </div>
-
-              {/* Sticky Support */}
               <StickySupport />
             </>
           }
@@ -62,6 +66,7 @@ const App: React.FC = () => (
         {/* Build & Join as standalone pages */}
         <Route path="/build-hive" element={<RoutedBuildHive />} />
         <Route path="/join-hive" element={<RoutedJoinHive />} />
+        <Route path="/join-royal-swarm" element={<RoutedJoinRoyalSwarm />} />
 
         {/* STANDALONE PAGES */}
         <Route path="/how-it-works" element={<HowItWorks />} />
@@ -88,7 +93,7 @@ const App: React.FC = () => (
         {/* ADMIN: Submission Gallery */}
         <Route path="/admin/submissions" element={<SubmissionGallery />} />
 
-        {/* Fallback */}
+        {/* Fallback → hero */}
         <Route path="*" element={<Hero />} />
       </Routes>
     </div>

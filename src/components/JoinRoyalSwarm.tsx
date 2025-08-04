@@ -1,11 +1,11 @@
-// src/components/JoinHive.tsx
+// src/components/JoinRoyalSwarm.tsx
 import React, { useState, useEffect } from 'react'
 import { User } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
 import background3 from '../assets/background3.png'
 import background6 from '../assets/background6.png'
 
-interface JoinHiveProps {
+interface JoinRoyalSwarmProps {
   onBack: () => void
 }
 
@@ -22,7 +22,7 @@ type FormData = {
   resume: File | null
 }
 
-const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
+const JoinRoyalSwarm: React.FC<JoinRoyalSwarmProps> = ({ onBack }) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState<FormData>({
@@ -109,7 +109,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
       }
 
       const { error: insertErr } = await supabase
-        .from('join_hive_requests')
+        .from('join_royal_swarm_requests')
         .insert({
           full_name:      formData.fullName,
           email:          formData.email,
@@ -150,7 +150,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
 
   if (isSubmitted) {
     return (
-      <section id="join-hive" className={wrapperClasses} style={wrapperStyle}>
+      <section id="join-royal-swarm" className={wrapperClasses} style={wrapperStyle}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
             ← Back
@@ -158,7 +158,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           <div className="mx-auto max-w-xl bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg animate-pulse p-6 sm:p-8">
             <User className="w-12 h-12 text-bee-black mx-auto mb-4" />
             <h3 className="text-xl sm:text-2xl font-bold mb-2">
-              Thank you for joining our hive.
+              Thank you for joining the royal swarm.
             </h3>
             <p className="text-base sm:text-lg text-gray-600">
               Our sweetest bees will connect with you shortly!
@@ -170,7 +170,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   }
 
   return (
-    <section id="join-hive" className={wrapperClasses} style={wrapperStyle}>
+    <section id="join-royal-swarm" className={wrapperClasses} style={wrapperStyle}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
           ← Back
@@ -179,7 +179,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
         {/* Glass-blur card wrapper */}
         <div className="mx-auto max-w-3xl bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg p-6 sm:p-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6">
-            Join Your Hive
+            Join The Royal Swarm
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Personal Info */}
@@ -325,4 +325,4 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   )
 }
 
-export default JoinHive
+export default JoinRoyalSwarm
