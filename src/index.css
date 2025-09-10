@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth native scroll for anchors */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* leave room for your fixed navbar */
+}
+
+/* Brand honeycomb everywhere */
+body {
+  background-color: #F3BF18; /* honey */
+  background-image: url('/assets/background3.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  color: #0D0D0D;            
+  font-family: sans-serif;
+}
