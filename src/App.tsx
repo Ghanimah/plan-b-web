@@ -51,12 +51,10 @@ const App: React.FC = () => (
             path="/"
             element={
               <>
-                <div className="bg-[url('/assets/background3.png')] bg-cover bg-center bg-fixed">
+                <div className="bg-hive-night">
                   <Hero />
+                  <WhyChoosePlanB />
                   <HomeHives />
-                  <section id="about-us">
-                    <WhyChoosePlanB />
-                  </section>
                 </div>
                 <StickySupport />
               </>

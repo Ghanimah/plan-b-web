@@ -1,9 +1,13 @@
 // src/components/JoinHive.tsx
-import React, { useState, useEffect } from 'react'
-import { User } from 'lucide-react'
+import React, { useState } from 'react'
+import {
+  User,
+  ArrowLeft,
+  Hexagon,
+  CheckCircle2,
+  Upload,
+} from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
-import background3 from '../assets/background3.png'
-import background6 from '../assets/background6.png'
 
 interface JoinHiveProps {
   onBack: () => void
@@ -38,39 +42,17 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
     resume: null,
   })
 
-  // responsive background: desktop = background3, mobile (<640px) = background6
-  const [bgImage, setBgImage] = useState(background3)
-  useEffect(() => {
-    function updateBg() {
-      setBgImage(window.innerWidth < 640 ? background6 : background3)
-    }
-    updateBg()
-    window.addEventListener('resize', updateBg)
-    return () => window.removeEventListener('resize', updateBg)
-  }, [])
-
-  const wrapperClasses =
-    'scroll-mt-24 relative py-16 min-h-screen bg-cover bg-center'
-  const wrapperStyle = {
-    backgroundColor: '#000',
-    backgroundImage: `url(${bgImage})`,
-    backgroundRepeat: 'no-repeat' as const,
-    backgroundSize: 'cover' as const,
-    backgroundPosition: 'center center' as const,
-    backgroundAttachment: 'scroll' as const,
-  }
-
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value as any }))
+    setFormData((prev) => ({ ...prev, [name]: value as unknown as never }))
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target
     const file = e.target.files?.[0] ?? null
-    setFormData(prev => ({ ...prev, [name]: file }))
+    setFormData((prev) => ({ ...prev, [name]: file as unknown as never }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -81,43 +63,37 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
       let photo_url: string | null = null
       if (formData.photo) {
         const path = `selfies/${Date.now()}_${formData.photo.name}`
-        const { data: uploadPhoto, error: photoErr } = await supabase
-          .storage
+        const { data: uploadPhoto, error: photoErr } = await supabase.storage
           .from('self-portrait')
           .upload(path, formData.photo, { upsert: false })
         if (photoErr) throw photoErr
-        photo_url = supabase
-          .storage
+        photo_url = supabase.storage
           .from('self-portrait')
-          .getPublicUrl(uploadPhoto.path)
-          .data.publicUrl
+          .getPublicUrl(uploadPhoto.path).data.publicUrl
       }
 
       let resume_url: string | null = null
       if (formData.resume) {
         const path = `resumes/${Date.now()}_${formData.resume.name}`
-        const { data: uploadRes, error: resErr } = await supabase
-          .storage
+        const { data: uploadRes, error: resErr } = await supabase.storage
           .from('self-portrait')
           .upload(path, formData.resume, { upsert: false })
         if (resErr) throw resErr
-        resume_url = supabase
-          .storage
+        resume_url = supabase.storage
           .from('self-portrait')
-          .getPublicUrl(uploadRes.path)
-          .data.publicUrl
+          .getPublicUrl(uploadRes.path).data.publicUrl
       }
 
       const { error: insertErr } = await supabase
         .from('join_hive_requests')
         .insert({
-          full_name:      formData.fullName,
-          email:          formData.email,
-          phone_number:   formData.phone,
-          address:        formData.address,
-          university:     formData.university,
-          date_of_birth:  formData.dob,
-          has_car:        formData.hasCar,
+          full_name: formData.fullName,
+          email: formData.email,
+          phone_number: formData.phone,
+          address: formData.address,
+          university: formData.university,
+          date_of_birth: formData.dob,
+          has_car: formData.hasCar,
           has_experience: formData.hasExperience,
           photo_url,
           resume_url,
@@ -140,50 +116,85 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           resume: null,
         })
       }, 3000)
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error'
       console.error('Submission error:', error)
-      alert(`Submission failed:\n${error.message}`)
+      alert(`Submission failed:\n${message}`)
     } finally {
       setLoading(false)
     }
   }
 
+  const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <section className="relative min-h-screen overflow-hidden bg-hive-night pt-28 pb-20">
+      <div className="pointer-events-none absolute inset-0 bg-honeycomb opacity-30" />
+      <div className="pointer-events-none absolute -top-32 right-1/4 h-80 w-80 rounded-full bg-gold/10 blur-[120px]" />
+      <div className="pointer-events-none absolute bottom-0 left-1/4 h-72 w-72 rounded-full bg-gold-dark/15 blur-[120px]" />
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
+    </section>
+  )
+
   if (isSubmitted) {
     return (
-      <section id="join-hive" className={wrapperClasses} style={wrapperStyle}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
-            ← Back
-          </button>
-          <div className="mx-auto max-w-xl bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg animate-pulse p-6 sm:p-8">
-            <User className="w-12 h-12 text-bee-black mx-auto mb-4" />
-            <h3 className="text-xl sm:text-2xl font-bold mb-2">
-              Thank you for joining our hive.
-            </h3>
-            <p className="text-base sm:text-lg text-gray-600">
-              Our sweetest bees will connect with you shortly!
-            </p>
+      <Page>
+        <button
+          onClick={onBack}
+          className="mb-8 inline-flex items-center gap-2 rounded-full border border-hive-border bg-hive-card/50 px-4 py-2 text-sm text-white/70 backdrop-blur transition-colors hover:border-gold/60 hover:text-gold"
+        >
+          <ArrowLeft className="h-4 w-4" /> Back
+        </button>
+        <div className="mx-auto max-w-xl rounded-3xl border border-gold/30 bg-hive-card/60 p-10 text-center shadow-glow backdrop-blur">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gold/15 ring-1 ring-gold/40">
+            <CheckCircle2 className="h-8 w-8 text-gold" />
           </div>
+          <h3 className="mt-6 text-2xl font-bold text-white sm:text-3xl">
+            Welcome to the hive!
+          </h3>
+          <p className="mt-3 text-white/60">
+            Our sweetest bees will connect with you shortly.
+          </p>
         </div>
-      </section>
+      </Page>
     )
   }
 
   return (
-    <section id="join-hive" className={wrapperClasses} style={wrapperStyle}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <button onClick={onBack} className="mb-6 text-bee-red hover:underline">
-          ← Back
-        </button>
+    <Page>
+      <button
+        onClick={onBack}
+        className="mb-8 inline-flex items-center gap-2 rounded-full border border-hive-border bg-hive-card/50 px-4 py-2 text-sm text-white/70 backdrop-blur transition-colors hover:border-gold/60 hover:text-gold"
+      >
+        <ArrowLeft className="h-4 w-4" /> Back
+      </button>
 
-        {/* Glass-blur card wrapper */}
-        <div className="mx-auto max-w-3xl bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg p-6 sm:p-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6">
-            Join Your Hive
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Personal Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="mx-auto max-w-3xl">
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-gold">
+            <Hexagon className="h-3.5 w-3.5 fill-gold text-gold" />
+            For Talent
+          </div>
+          <h1 className="mt-6 text-4xl font-bold text-white sm:text-5xl">
+            Join Your <span className="text-gold-gradient">Hive</span>
+          </h1>
+          <p className="mx-auto mt-3 max-w-xl text-white/60">
+            Flexible roles, real experience, weekly pay. Tell us a bit about
+            yourself — the hive is ready when you are.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="mt-10 space-y-6">
+          {/* Personal info */}
+          <div className="panel-hive p-6 sm:p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/15 ring-1 ring-gold/30">
+                <User className="h-5 w-5 text-gold" />
+              </div>
+              <h3 className="text-xl font-semibold text-white sm:text-2xl">
+                Your Info
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <input
                 type="text"
                 name="fullName"
@@ -191,7 +202,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
                 onChange={handleChange}
                 placeholder="Full Name"
                 required
-                className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                className="input-hive"
               />
               <input
                 type="email"
@@ -200,7 +211,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
                 onChange={handleChange}
                 placeholder="Email"
                 required
-                className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                className="input-hive"
               />
               <input
                 type="tel"
@@ -209,7 +220,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
                 onChange={handleChange}
                 placeholder="Phone Number"
                 required
-                className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                className="input-hive"
               />
               <input
                 type="text"
@@ -218,14 +229,13 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
                 onChange={handleChange}
                 placeholder="Address"
                 required
-                className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                className="input-hive"
               />
             </div>
 
-            {/* University & DOB */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
               <label className="flex flex-col">
-                <span className="mb-1 text-sm sm:text-base">Current University</span>
+                <span className="label-hive">Current University</span>
                 <input
                   type="text"
                   name="university"
@@ -233,95 +243,119 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
                   onChange={handleChange}
                   placeholder="e.g. University of Jordan"
                   required
-                  className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                  className="input-hive"
                 />
               </label>
               <label className="flex flex-col">
-                <span className="mb-1 text-sm sm:text-base">Date of Birth</span>
+                <span className="label-hive">Date of Birth</span>
                 <input
                   type="date"
                   name="dob"
                   value={formData.dob}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                  className="input-hive"
                 />
               </label>
             </div>
+          </div>
 
-            {/* Photo & Resume */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Uploads */}
+          <div className="panel-hive p-6 sm:p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/15 ring-1 ring-gold/30">
+                <Upload className="h-5 w-5 text-gold" />
+              </div>
+              <h3 className="text-xl font-semibold text-white sm:text-2xl">
+                Documents
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <label className="flex flex-col">
-                <span className="mb-1 text-sm sm:text-base">Insert a self-portrait</span>
+                <span className="label-hive">Self-portrait</span>
                 <input
                   type="file"
                   name="photo"
                   accept="image/*"
                   onChange={handleFileChange}
                   required
-                  className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-honey"
+                  className="input-hive file:mr-3 file:rounded-lg file:border-0 file:bg-gold/15 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-gold"
                 />
               </label>
               <label className="flex flex-col">
-                <span className="mb-1 text-sm sm:text-base">Upload Resume</span>
+                <span className="label-hive">Resume (PDF / DOC)</span>
                 <input
                   type="file"
                   name="resume"
                   accept=".pdf,.doc,.docx"
                   onChange={handleFileChange}
-                  className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-honey"
+                  className="input-hive file:mr-3 file:rounded-lg file:border-0 file:bg-gold/15 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-gold"
                 />
               </label>
             </div>
+          </div>
 
-            {/* Car & Experience */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Quick questions */}
+          <div className="panel-hive p-6 sm:p-8">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <label className="flex flex-col">
-                <span className="mb-1 text-sm sm:text-base">Do you have a car?</span>
+                <span className="label-hive">Do you have a car?</span>
                 <select
                   name="hasCar"
                   value={formData.hasCar}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                  className="input-hive"
                 >
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
+                  <option value="yes" className="bg-hive-night">
+                    Yes
+                  </option>
+                  <option value="no" className="bg-hive-night">
+                    No
+                  </option>
                 </select>
               </label>
               <label className="flex flex-col">
-                <span className="mb-1 text-sm sm:text-base">Work experience?</span>
+                <span className="label-hive">Work experience?</span>
                 <select
                   name="hasExperience"
                   value={formData.hasExperience}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border rounded focus:ring-2 focus:ring-honey"
+                  className="input-hive"
                 >
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
+                  <option value="yes" className="bg-hive-night">
+                    Yes
+                  </option>
+                  <option value="no" className="bg-hive-night">
+                    No
+                  </option>
                 </select>
               </label>
             </div>
+          </div>
 
-            {/* Submit */}
-            <div className="text-center">
-              <button
-                type="submit"
-                disabled={loading}
-                className={`w-full md:w-auto px-6 py-3 rounded-full font-semibold transition ${
+          {/* Submit */}
+          <div className="pt-2 text-center">
+            <button
+              type="submit"
+              disabled={loading}
+              className={`
+                inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-semibold transition-all duration-300 md:w-auto
+                ${
                   loading
-                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                    : 'bg-bee-red text-offwhite hover:bg-honey'
-                }`}
-              >
-                {loading ? 'Submitting…' : 'Submit Application'}
-              </button>
-            </div>
-          </form>
-        </div>
+                    ? 'cursor-not-allowed bg-white/10 text-white/50'
+                    : 'bg-gold-gradient text-hive-night shadow-honey hover:-translate-y-0.5 hover:shadow-glow-lg'
+                }
+              `}
+            >
+              {loading ? 'Submitting…' : 'Submit Application'}
+            </button>
+          </div>
+        </form>
       </div>
-    </section>
+    </Page>
   )
 }
 

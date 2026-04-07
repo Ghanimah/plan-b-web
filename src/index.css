@@ -8,14 +8,78 @@ html {
   scroll-padding-top: 6rem; /* leave room for your fixed navbar */
 }
 
-/* Brand honeycomb everywhere */
+/* Bee / hive theme — deep night canvas with warm amber accents */
 body {
-  background-color: #F3BF18; /* honey */
-  background-image: url('/assets/background3.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-  color: #0D0D0D;            
-  font-family: sans-serif;
+  background-color: #0F0F1A;
+  color: #FAFAFA;
+  font-family: 'DM Sans', Inter, system-ui, -apple-system, sans-serif;
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Outfit', 'Sora', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Reusable honeycomb SVG background — low-opacity hex grid overlay */
+.bg-honeycomb {
+  background-image: url("data:image/svg+xml,%3Csvg width='56' height='100' viewBox='0 0 56 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23F5A623' stroke-width='1' stroke-opacity='0.12'%3E%3Cpath d='M28 0L56 16v32L28 64 0 48V16z'/%3E%3Cpath d='M28 36L56 52v32L28 100 0 84V52z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 56px 100px;
+}
+
+.bg-honeycomb-dense {
+  background-image: url("data:image/svg+xml,%3Csvg width='28' height='50' viewBox='0 0 28 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23F5A623' stroke-width='0.8' stroke-opacity='0.18'%3E%3Cpath d='M14 0L28 8v16L14 32 0 24V8z'/%3E%3Cpath d='M14 18L28 26v16L14 50 0 42V26z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 28px 50px;
+}
+
+/* Golden gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #ffd166 0%, #f5a623 50%, #c88a1a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Pretty dark input styles used by the form pages */
+.input-hive {
+  @apply w-full px-4 py-3 bg-hive-card/60 border border-hive-border text-offwhite placeholder-white/40 rounded-xl;
+  @apply focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold/60 transition;
+}
+
+.label-hive {
+  @apply text-sm font-medium text-white/70 mb-1.5;
+}
+
+/* Subtle golden glow on focus-within for grouped form panels */
+.panel-hive {
+  @apply bg-hive-card/60 backdrop-blur-md border border-hive-border rounded-2xl;
+}
+
+/* Custom scrollbar styling for the dark theme */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0f0f1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #2e2a3f;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c88a1a;
+}
+
+/* Hexagonal clip-path helper */
+.hex-clip {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }

@@ -1,98 +1,136 @@
 // src/components/Hero.tsx
-import React, { useEffect, useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-
-// Desktop asset lives in public/assets:
-const HERO_DESKTOP = '/assets/honeycomb-pattern.png'
-// Mobile asset imported from src/assets:
-import mobileBackground from '../assets/mobilebackground.png'
+import { motion } from 'framer-motion'
+import { Hexagon, Users, Building2, ArrowRight } from 'lucide-react'
+import { ContainerScroll } from './ui/container-scroll-animation'
 
 const Hero: React.FC = () => {
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
-
-  // responsive background swap
-  const [bgImage, setBgImage] = useState<string>(HERO_DESKTOP)
-  useEffect(() => {
-    const updateBg = () => {
-      setBgImage(window.innerWidth < 640 ? mobileBackground : HERO_DESKTOP)
-    }
-    updateBg()
-    window.addEventListener('resize', updateBg)
-    return () => window.removeEventListener('resize', updateBg)
-  }, [])
-
   return (
     <section
       id="hero"
-      className="relative h-screen overflow-hidden bg-black"
-      style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: window.innerWidth < 640 ? 'contain' : 'cover',
-        backgroundPosition: 'center center',
-      }}
+      className="relative overflow-hidden bg-hive-night"
     >
-      {/* Headline: hidden on mobile, shown sm+ */}
-      <div
-        className={`
-          hidden sm:block
-          absolute inset-x-0
-          ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5'}
-          top-20 sm:top-32
-          px-4 sm:px-12 lg:px-24
-          transform transition-all duration-700
-          text-center sm:text-left
-        `}
-      >
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-white leading-snug">
-          We Build Hives.
-          <br />
-          <span className="inline-block sm:ml-8">We Gain Trust.</span>
-        </h1>
-      </div>
+      {/* Ambient golden glow orbs */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[40rem] w-[40rem] rounded-full bg-gold/10 blur-[120px]" />
+      <div className="pointer-events-none absolute top-1/3 -left-32 h-72 w-72 rounded-full bg-gold-dark/20 blur-[100px]" />
+      <div className="pointer-events-none absolute top-1/2 -right-32 h-80 w-80 rounded-full bg-gold/15 blur-[100px]" />
 
-      {/* React-Router Links */}
-      <div
-        className={`
-          absolute left-1/2 top-[60%] -translate-x-1/2
-          flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6
-          w-full px-4 sm:w-auto sm:px-0
-          transform transition-opacity duration-700
-          ${mounted ? 'opacity-100' : 'opacity-0'}
-        `}
-      >
-        <Link
-          to="/build-hive"
-          className="
-            px-6 py-3 sm:px-8 sm:py-3
-            bg-yellow-400 text-black font-semibold rounded-full
-            transform transition duration-500 ease-out
-            hover:-translate-y-1 hover:shadow-lg
-            text-center w-full sm:w-auto
-          "
-        >
-          Build Your Hive
-        </Link>
-        <Link
-          to="/join-hive"
-          className="
-            px-6 py-3 sm:px-8 sm:py-3
-            bg-transparent border-2 border-yellow-400 text-yellow-400 font-semibold rounded-full
-            transform transition duration-500 ease-out
-            hover:bg-yellow-400 hover:text-black hover:shadow-lg
-            text-center w-full sm:w-auto
-          "
-        >
-          Join Your Hive
-        </Link>
-      </div>
+      {/* Honeycomb pattern overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-honeycomb opacity-40" />
 
-      {/* Scroll hint */}
-      <div className="absolute bottom-8 inset-x-0 flex justify-center z-10 animate-bounce">
-        <ChevronDown className="w-8 h-8 text-white" />
-      </div>
+      <ContainerScroll
+        titleComponent={
+          <div className="pt-24 md:pt-0">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-gold"
+            >
+              <Hexagon className="h-3.5 w-3.5 fill-gold text-gold" />
+              Where the hive gathers
+            </motion.div>
+            <h1 className="mt-6 text-4xl font-bold text-white sm:text-5xl md:text-7xl">
+              Welcome to <span className="text-gold-gradient">Plan B</span>
+            </h1>
+            <p className="mt-4 text-lg font-medium text-white/70 md:text-2xl">
+              Your Hive Starts Here
+            </p>
+          </div>
+        }
+      >
+        {/* iPad content — live interactive CTA panel */}
+        <div className="relative h-full w-full">
+          {/* Dense honeycomb pattern inside the device */}
+          <div className="absolute inset-0 bg-honeycomb-dense opacity-60" />
+          {/* Warm gradient wash */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-transparent to-gold-dark/15" />
+          {/* Soft spotlight */}
+          <div className="absolute left-1/2 top-1/3 h-64 w-64 -translate-x-1/2 rounded-full bg-gold/20 blur-3xl" />
+
+          <div className="relative flex h-full w-full flex-col items-center justify-center p-6 md:p-12">
+            {/* Tiny window chrome (like a browser / app) */}
+            <div className="absolute left-4 top-4 flex items-center gap-1.5 md:left-6 md:top-6">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
+            </div>
+
+            <h3 className="text-center text-xl font-semibold text-white/90 md:text-3xl">
+              What would you like to do?
+            </h3>
+            <p className="mt-2 max-w-md text-center text-sm text-white/50 md:text-base">
+              Choose your path — find work or build a team of trained talent.
+            </p>
+
+            <div className="mt-8 flex w-full max-w-2xl flex-col items-stretch gap-4 md:mt-10 md:flex-row">
+              {/* Join Your Hive */}
+              <Link
+                to="/join-hive"
+                className="group relative flex-1 overflow-hidden rounded-2xl bg-gold-gradient p-5 md:p-6 text-left shadow-honey transition-transform duration-300 hover:-translate-y-1 hover:shadow-glow-lg"
+              >
+                <div className="absolute inset-0 bg-honeycomb-dense opacity-20" />
+                <div className="relative flex items-start gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-hive-night/85 md:h-12 md:w-12">
+                    <Users className="h-5 w-5 text-gold md:h-6 md:w-6" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-hive-night/70">
+                      For talent
+                    </div>
+                    <div className="mt-1 text-lg font-bold text-hive-night md:text-xl">
+                      Join Your Hive
+                    </div>
+                    <p className="mt-1 text-xs text-hive-night/75 md:text-sm">
+                      Flexible roles, real experience, weekly pay.
+                    </p>
+                  </div>
+                  <ArrowRight className="h-5 w-5 text-hive-night transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
+              </Link>
+
+              {/* Build Your Hive */}
+              <Link
+                to="/build-hive"
+                className="group relative flex-1 overflow-hidden rounded-2xl border-2 border-gold/60 bg-hive-night/80 p-5 md:p-6 text-left backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:bg-hive-night hover:shadow-glow"
+              >
+                <div className="absolute inset-0 bg-honeycomb-dense opacity-10" />
+                <div className="relative flex items-start gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/15 md:h-12 md:w-12">
+                    <Building2 className="h-5 w-5 text-gold md:h-6 md:w-6" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold/80">
+                      For teams
+                    </div>
+                    <div className="mt-1 text-lg font-bold text-gold md:text-xl">
+                      Build Your Hive
+                    </div>
+                    <p className="mt-1 text-xs text-white/60 md:text-sm">
+                      Trained crews deployed in 24–48 hours.
+                    </p>
+                  </div>
+                  <ArrowRight className="h-5 w-5 text-gold transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
+              </Link>
+            </div>
+
+            {/* Tiny badge row */}
+            <div className="mt-8 hidden flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-white/40 md:flex">
+              <span className="flex items-center gap-1.5">
+                <Hexagon className="h-3 w-3 text-gold" /> Verified Profiles
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Hexagon className="h-3 w-3 text-gold" /> Smart Matching
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Hexagon className="h-3 w-3 text-gold" /> Weekly Payouts
+              </span>
+            </div>
+          </div>
+        </div>
+      </ContainerScroll>
     </section>
   )
 }

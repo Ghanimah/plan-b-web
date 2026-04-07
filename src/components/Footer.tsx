@@ -1,138 +1,132 @@
 // src/components/Footer.tsx
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
-  Building2,
-  Users,
   Phone,
   Mail,
   MapPin,
   Instagram,
   Linkedin,
+  Hexagon,
+  ArrowUpRight,
 } from 'lucide-react'
 
+const navCols = [
+  {
+    title: 'Explore',
+    links: [
+      { label: 'Home', to: '/' },
+      { label: 'How It Works', to: '/how-it-works' },
+      { label: 'Who We Serve', to: '/who-we-serve' },
+      { label: 'About', to: '/about-us' },
+    ],
+  },
+  {
+    title: 'Join the Hive',
+    links: [
+      { label: 'Build Your Hive', to: '/build-hive' },
+      { label: 'Join Your Hive', to: '/join-hive' },
+      { label: 'Join Royal Swarm', to: '/join-royal-swarm' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+]
+
 const Footer: React.FC = () => {
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    element?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
-    <footer className="bg-bee-black text-offwhite py-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {/* Brand Section */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center mb-6">
-              <div
-                className="w-12 h-12 bg-honey rounded-full flex items-center justify-center mr-4"
-                style={{
-                  clipPath:
-                    'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                }}
-              >
-                <Users className="w-6 h-6 text-bee-black" />
-              </div>
-              <h3 className="text-2xl font-bold">Plan B</h3>
-            </div>
+    <footer className="relative overflow-hidden border-t border-hive-border bg-hive-night text-white">
+      <div className="pointer-events-none absolute inset-0 bg-honeycomb opacity-25" />
+      <div className="pointer-events-none absolute -bottom-40 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-gold/10 blur-[140px]" />
 
-            <p className="text-offwhite/70 mb-6 leading-relaxed max-w-md">
-              Jordan's leading student recruitment platform connecting businesses
-              with trained, reliable talent. We build hives. We gain trust.
+      <div className="container relative mx-auto px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          {/* Brand */}
+          <div className="lg:col-span-5">
+            <Link to="/" className="group flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold-gradient shadow-honey transition-transform duration-300 group-hover:rotate-12">
+                <Hexagon className="h-5 w-5 fill-hive-night text-hive-night" />
+              </div>
+              <div className="leading-none">
+                <div className="font-display text-2xl font-bold tracking-tight">
+                  Plan <span className="text-gold">B</span>
+                </div>
+                <div className="mt-1 text-[10px] font-medium uppercase tracking-[0.2em] text-white/40">
+                  Your hive. Your way.
+                </div>
+              </div>
+            </Link>
+
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-white/60">
+              Jordan's leading student recruitment platform connecting brands with
+              trained, reliable talent. We build hives. We gain trust.
             </p>
 
-            <div className="flex space-x-4">
+            {/* Socials */}
+            <div className="mt-6 flex items-center gap-3">
               <a
                 href="https://www.instagram.com/plnb.jo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-bee-black rounded-full flex items-center justify-center hover:bg-honey hover:text-bee-black transition-colors duration-300"
-                style={{
-                  clipPath:
-                    'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                }}
+                aria-label="Instagram"
+                className="group flex h-10 w-10 items-center justify-center rounded-xl border border-hive-border bg-hive-card/50 text-white/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-gold/60 hover:text-gold"
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="h-4 w-4" />
               </a>
               <a
                 href="https://www.linkedin.com/company/plbee"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-bee-black rounded-full flex items-center justify-center hover:bg-honey hover:text-bee-black transition-colors duration-300"
-                style={{
-                  clipPath:
-                    'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                }}
+                aria-label="LinkedIn"
+                className="group flex h-10 w-10 items-center justify-center rounded-xl border border-hive-border bg-hive-card/50 text-white/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-gold/60 hover:text-gold"
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="h-4 w-4" />
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-bold mb-6 text-honey">Quick Links</h4>
-            <ul className="space-y-3">
-              <li>
-                <button
-                  onClick={() => scrollToSection('build-hive')}
-                  className="text-offwhite/70 hover:text-honey-dark transition-colors duration-300 hover:underline"
-                >
-                  Build Your Hive
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('join-hive')}
-                  className="text-offwhite/70 hover:text-honey-dark transition-colors duration-300 hover:underline"
-                >
-                  Join Your Hive
-                </button>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-offwhite/70 hover:text-honey-dark transition-colors duration-300 hover:underline"
-                >
-                  FAQs
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-offwhite/70 hover:text-honey-dark transition-colors duration-300 hover:underline"
-                >
-                  Terms &amp; Privacy
-                </a>
-              </li>
-            </ul>
-          </div>
+          {/* Nav columns */}
+          {navCols.map((col) => (
+            <div key={col.title} className="lg:col-span-2">
+              <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+                {col.title}
+              </h4>
+              <ul className="mt-5 space-y-3">
+                {col.links.map((l) => (
+                  <li key={l.to}>
+                    <Link
+                      to={l.to}
+                      className="group inline-flex items-center gap-1 text-sm text-white/65 transition-colors hover:text-white"
+                    >
+                      {l.label}
+                      <ArrowUpRight className="h-3 w-3 opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
-          {/* Contact Info */}
-          <div>
-            <h4 className="text-lg font-bold mb-6 text-honey">Contact Us</h4>
-            <ul className="space-y-4 text-sm">
-              <li className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-honey-dark mt-1 flex-shrink-0" />
-                <div>
-                  <p className="text-offwhite/70">Plan B Headquarters</p>
-                  <p className="text-offwhite/70">Amman, Jordan</p>
-                </div>
+          {/* Contact */}
+          <div className="lg:col-span-3">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+              Contact
+            </h4>
+            <ul className="mt-5 space-y-4 text-sm">
+              <li className="flex items-start gap-3 text-white/65">
+                <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold/80" />
+                <span>Plan B HQ — Amman, Jordan</span>
               </li>
-              <li className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-honey-dark flex-shrink-0" />
-                <a
-                  href="tel:+962792233340"
-                  className="text-offwhite/70 hover:text-honey-dark transition-colors duration-300"
-                >
-                  +962792233340
+              <li className="flex items-center gap-3 text-white/65">
+                <Phone className="h-4 w-4 flex-shrink-0 text-gold/80" />
+                <a href="tel:+962792233340" className="hover:text-white">
+                  +962 79 223 3340
                 </a>
               </li>
-              <li className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-honey-dark flex-shrink-0" />
+              <li className="flex items-center gap-3 text-white/65">
+                <Mail className="h-4 w-4 flex-shrink-0 text-gold/80" />
                 <a
-                  href="mailto:thebeekeeper@planb.jo"
-                  className="text-offwhite/70 hover:text-honey-dark transition-colors duration-300"
+                  href="mailto:thebeekeeper@plbee.com"
+                  className="hover:text-white"
                 >
                   thebeekeeper@plbee.com
                 </a>
@@ -141,43 +135,14 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="border-t border-gray-800 pt-12 mb-12">
-          <div className="bg-gradient-to-r from-honey to-honey-dark rounded-2xl p-6 sm:p-8 text-center">
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-bee-black mb-4">
-              Ready to Experience the Hive Difference?
-            </h3>
-            <p className="text-base sm:text-lg md:text-xl text-bee-black mb-6 max-w-2xl mx-auto">
-              Join the hundreds of businesses and students who trust Plan B for
-              reliable, flexible workforce solutions.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => scrollToSection('build-hive')}
-                className="flex items-center justify-center bg-bee-red text-offwhite px-6 py-3 rounded-lg font-semibold hover:bg-bee-black transition-colors duration-300 w-full sm:w-auto"
-              >
-                <Building2 className="w-5 h-5 mr-2" />
-                Build Your Hive
-              </button>
-              <button
-                onClick={() => scrollToSection('join-hive')}
-                className="flex items-center justify-center bg-offwhite text-bee-black px-6 py-3 rounded-lg font-semibold hover:bg-offwhite/90 transition-colors duration-300 w-full sm:w-auto"
-              >
-                <Users className="w-5 h-5 mr-2" />
-                Join Your Hive
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
-          <p className="text-offwhite/70 mb-4 md:mb-0">
-            © {new Date().getFullYear()} Plan B. All rights reserved. Made with
-            ❤️ in Jordan.
+        {/* Bottom bar */}
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-hive-border pt-8 text-xs text-white/45 md:flex-row">
+          <p>
+            © {new Date().getFullYear()} Plan B. All rights reserved. Built with honey in Jordan.
           </p>
-          <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-offwhite/70">
+          <div className="flex items-center gap-5">
             <span>Active in Amman</span>
+            <span className="h-1 w-1 rounded-full bg-white/30" />
             <span>Aqaba</span>
           </div>
         </div>
