@@ -28,6 +28,15 @@ type FormState = {
   scheduleDetails: string
 }
 
+const BuildHivePage: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <section className="relative min-h-screen overflow-hidden bg-hive-night pt-28 pb-20">
+    <div className="pointer-events-none absolute inset-0 bg-honeycomb opacity-30" />
+    <div className="pointer-events-none absolute -top-32 left-1/4 h-80 w-80 rounded-full bg-gold/10 blur-[120px]" />
+    <div className="pointer-events-none absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-gold-dark/15 blur-[120px]" />
+    <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
+  </section>
+)
+
 const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
   const [form, setForm] = useState<FormState>({
     companyName: '',
@@ -78,19 +87,9 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
     }
   }
 
-  // Shared page chrome (ambient bg + honeycomb overlay)
-  const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <section className="relative min-h-screen overflow-hidden bg-hive-night pt-28 pb-20">
-      <div className="pointer-events-none absolute inset-0 bg-honeycomb opacity-30" />
-      <div className="pointer-events-none absolute -top-32 left-1/4 h-80 w-80 rounded-full bg-gold/10 blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-gold-dark/15 blur-[120px]" />
-      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
-    </section>
-  )
-
   if (submitted) {
     return (
-      <Page>
+      <BuildHivePage>
         <button
           onClick={onBack}
           className="mb-8 inline-flex items-center gap-2 rounded-full border border-hive-border bg-hive-card/50 px-4 py-2 text-sm text-white/70 backdrop-blur transition-colors hover:border-gold/60 hover:text-gold"
@@ -108,12 +107,12 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
             A beekeeper will be in touch within 24–48 hours to start building your hive.
           </p>
         </div>
-      </Page>
+      </BuildHivePage>
     )
   }
 
   return (
-    <Page>
+    <BuildHivePage>
       <button
         onClick={onBack}
         className="mb-8 inline-flex items-center gap-2 rounded-full border border-hive-border bg-hive-card/50 px-4 py-2 text-sm text-white/70 backdrop-blur transition-colors hover:border-gold/60 hover:text-gold"
@@ -308,7 +307,7 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
           </div>
         </form>
       </div>
-    </Page>
+    </BuildHivePage>
   )
 }
 

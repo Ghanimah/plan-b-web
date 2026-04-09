@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Hexagon, ArrowRight } from 'lucide-react'
+import { Menu, X, ArrowRight } from 'lucide-react'
+import logo from '../assets/logo.png'
 
 const navItems = [
   { label: 'Home', to: '/' },
@@ -41,12 +42,7 @@ export const Navbar: React.FC = () => {
       <div className="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo + brand */}
         <Link to="/" className="group flex items-center gap-3">
-          <div className="relative">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-gradient shadow-honey transition-transform duration-300 group-hover:rotate-12">
-              <Hexagon className="h-5 w-5 fill-hive-night text-hive-night" />
-            </div>
-            <div className="absolute inset-0 rounded-xl bg-gold/30 blur-lg opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          </div>
+          <img src={logo} alt="Plan B logo" className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-105" />
           <div className="leading-none">
             <div className="font-display text-xl font-bold tracking-tight text-white">
               Plan <span className="text-gold">B</span>

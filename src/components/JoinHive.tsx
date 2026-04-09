@@ -26,6 +26,15 @@ type FormData = {
   resume: File | null
 }
 
+const JoinHivePage: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <section className="relative min-h-screen overflow-hidden bg-hive-night pt-28 pb-20">
+    <div className="pointer-events-none absolute inset-0 bg-honeycomb opacity-30" />
+    <div className="pointer-events-none absolute -top-32 right-1/4 h-80 w-80 rounded-full bg-gold/10 blur-[120px]" />
+    <div className="pointer-events-none absolute bottom-0 left-1/4 h-72 w-72 rounded-full bg-gold-dark/15 blur-[120px]" />
+    <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
+  </section>
+)
+
 const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -125,18 +134,9 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
     }
   }
 
-  const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <section className="relative min-h-screen overflow-hidden bg-hive-night pt-28 pb-20">
-      <div className="pointer-events-none absolute inset-0 bg-honeycomb opacity-30" />
-      <div className="pointer-events-none absolute -top-32 right-1/4 h-80 w-80 rounded-full bg-gold/10 blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-0 left-1/4 h-72 w-72 rounded-full bg-gold-dark/15 blur-[120px]" />
-      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
-    </section>
-  )
-
   if (isSubmitted) {
     return (
-      <Page>
+      <JoinHivePage>
         <button
           onClick={onBack}
           className="mb-8 inline-flex items-center gap-2 rounded-full border border-hive-border bg-hive-card/50 px-4 py-2 text-sm text-white/70 backdrop-blur transition-colors hover:border-gold/60 hover:text-gold"
@@ -154,12 +154,12 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
             Our sweetest bees will connect with you shortly.
           </p>
         </div>
-      </Page>
+      </JoinHivePage>
     )
   }
 
   return (
-    <Page>
+    <JoinHivePage>
       <button
         onClick={onBack}
         className="mb-8 inline-flex items-center gap-2 rounded-full border border-hive-border bg-hive-card/50 px-4 py-2 text-sm text-white/70 backdrop-blur transition-colors hover:border-gold/60 hover:text-gold"
@@ -355,7 +355,7 @@ const JoinHive: React.FC<JoinHiveProps> = ({ onBack }) => {
           </div>
         </form>
       </div>
-    </Page>
+    </JoinHivePage>
   )
 }
 
