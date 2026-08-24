@@ -65,10 +65,10 @@ const BuildHive: React.FC<BuildHiveProps> = ({ onBack }) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
-    const { error: sbError } = await supabase.from('build_hive_requests').insert({
+    const { error: sbError } = await supabase.from('client_requests').insert({
       company_name: form.companyName,
       primary_contact: form.primaryContact,
-      phone_number: form.phoneNumber,
+      phone: form.phoneNumber,
       billing_address: form.billingAddress,
       event_name: form.eventName,
       event_type: form.eventType,

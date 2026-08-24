@@ -16,7 +16,6 @@ import BuildHive from './components/BuildHive';
 import JoinHive from './components/JoinHive';
 import JoinRoyalSwarm from './components/JoinRoyalSwarm';
 import Footer from './components/Footer';
-import SubmissionGallery from './components/SubmissionGallery';
 
 // ✅ admin imports
 import { AdminProvider } from './contexts/AdminAuthContext';
@@ -94,8 +93,6 @@ const App: React.FC = () => (
               </ProtectedRoute>
             }
           />
-          <Route path="/admin/submissions" element={<SubmissionGallery />} />
-
           {/* fallback */}
           <Route path="*" element={<Hero />} />
         </Routes>

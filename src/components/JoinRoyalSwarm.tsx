@@ -1,7 +1,7 @@
 // src/components/JoinRoyalSwarm.tsx
 import React, { useState, useEffect } from 'react'
 import { User } from 'lucide-react'
-import { supabase } from '../lib/supabaseClient'
+import { submitApplication } from '../lib/submitApplication'
 import background3 from '../assets/background3.png'
 import background6 from '../assets/background6.png'
 
@@ -78,51 +78,7 @@ const JoinRoyalSwarm: React.FC<JoinRoyalSwarmProps> = ({ onBack }) => {
     setLoading(true)
 
     try {
-      let photo_url: string | null = null
-      if (formData.photo) {
-        const path = `selfies/${Date.now()}_${formData.photo.name}`
-        const { data: uploadPhoto, error: photoErr } = await supabase
-          .storage
-          .from('self-portrait')
-          .upload(path, formData.photo, { upsert: false })
-        if (photoErr) throw photoErr
-        photo_url = supabase
-          .storage
-          .from('self-portrait')
-          .getPublicUrl(uploadPhoto.path)
-          .data.publicUrl
-      }
-
-      let resume_url: string | null = null
-      if (formData.resume) {
-        const path = `resumes/${Date.now()}_${formData.resume.name}`
-        const { data: uploadRes, error: resErr } = await supabase
-          .storage
-          .from('self-portrait')
-          .upload(path, formData.resume, { upsert: false })
-        if (resErr) throw resErr
-        resume_url = supabase
-          .storage
-          .from('self-portrait')
-          .getPublicUrl(uploadRes.path)
-          .data.publicUrl
-      }
-
-      const { error: insertErr } = await supabase
-        .from('join_royal_swarm_requests')
-        .insert({
-          full_name:      formData.fullName,
-          email:          formData.email,
-          phone_number:   formData.phone,
-          address:        formData.address,
-          university:     formData.university,
-          date_of_birth:  formData.dob,
-          has_car:        formData.hasCar,
-          has_experience: formData.hasExperience,
-          photo_url,
-          resume_url,
-        })
-      if (insertErr) throw insertErr
+      await submitApplication(formData, 'royal_swarm')
 
       setIsSubmitted(true)
       setTimeout(() => {
